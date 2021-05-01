@@ -58,7 +58,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Card.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Hero.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Powerups\Coin.cs" />
+     <Compile Include="Assets\Scripts\Powerups\HealPotion.cs" />
+     <Compile Include="Assets\Scripts\Powerups\Powerup.cs" />
+     <Compile Include="Assets\Scripts\Weapon.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/nikita/RoguelikeCards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
