@@ -13,5 +13,6 @@
         }
 
         protected abstract void PickUp();
+        
     }
 }
