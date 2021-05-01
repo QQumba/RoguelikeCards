@@ -29,7 +29,7 @@ namespace DefaultNamespace.Enemies
             return false;
         }
 
-        void ApplyDamage(int damage)
+        public void ApplyDamage(int damage)
         {
             _health -= damage;
             if (_health <= 0)
