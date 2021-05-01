@@ -1,4 +1,6 @@
-﻿namespace DefaultNamespace.Chests
+﻿using System;
+
+namespace DefaultNamespace.Chests
 {
     public abstract class Chest : Card
     {
@@ -9,8 +11,12 @@
 
         public override bool TryEnter()
         {
-
+            OnOpen();
             return false;
+        }
+        protected abstract void OnOpen();
+        {
+            
         }
     }
 }

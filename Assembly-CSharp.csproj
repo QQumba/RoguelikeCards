@@ -53,6 +53,8 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Chests\Chest.cs" />
+     <Compile Include="Assets\Scripts\Enemies\Cabbage.cs" />
+     <Compile Include="Assets\Scripts\Enemies\KakashiFrog.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
