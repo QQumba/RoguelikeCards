@@ -11,15 +11,6 @@ namespace DefaultNamespace
 
         private void Start()
         {
-            var factory = new CardFactory();
-            var hero = new Hero()
-            {
-                Health = 3
-            };
-            Game = new Game(3, hero, factory);
-            factory.AddFactory(new PowerupFactory(Game, new Powerup[]{new HealPotion(hero)}, 30));
-            
-            Game.Start();
         }
     }
 }

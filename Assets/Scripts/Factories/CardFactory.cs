@@ -1,45 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using DefaultNamespace.Powerups;
-using NUnit.Framework;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
 namespace DefaultNamespace.Factories
 {
-    public class CardFactory : ICardFactory
+    public class CardFactory
     {
         private readonly List<ICardFactory> _factories = new List<ICardFactory>();
-        
-        private bool _cardGenerated = false;
 
-        public void AddFactory(ICardFactory factory)
+        public CardFactory AddFactory(ICardFactory factory)
         {
             _factories.Add(factory);
+            return this;
         }
         
-        public Card GetCard()
+        public Card GetCard(int maxAttempts = 100)
         {
-            // Debug.Log("CardFactory:GetCard");
             Card card = null;
-            var maxAttempts = 10;
             for (int i = 0; i < maxAttempts; i++)
             {
                 foreach (var factory in _factories)
                 {
-                    if (!_cardGenerated)
+                    card = factory.GetCard();
+                    if (card != null)
                     {
-                        card = factory.GetCard();
-                        if (card != null)
-                        {
-                            _cardGenerated = true;
-                        }
+                        return card;
                     }
-                }
-
-                if (_cardGenerated)
-                {
-                    _cardGenerated = false;
-                    break;
                 }
             }
 

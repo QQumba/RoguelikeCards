@@ -61,6 +61,9 @@
      <Compile Include="Assets\Scripts\Card.cs" />
      <Compile Include="Assets\Scripts\Chests\Chest.cs" />
      <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Scripts\Enemies\SuspiciousBush.cs" />
+     <Compile Include="Assets\Scripts\Extensions\CardExtensions.cs" />
+     <Compile Include="Assets\Scripts\Extensions\GameExtensions.cs" />
      <Compile Include="Assets\Scripts\Factories\CardFactory.cs" />
      <Compile Include="Assets\Scripts\Factories\ChestsFactory.cs" />
      <Compile Include="Assets\Scripts\Factories\EnemyFactory.cs" />
@@ -69,10 +72,11 @@
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\GameInitializer.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
+     <Compile Include="Assets\Scripts\InvalidCardException.cs" />
      <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Powerups\Coin.cs" />
      <Compile Include="Assets\Scripts\Powerups\HealPotion.cs" />
      <Compile Include="Assets\Scripts\Powerups\Powerup.cs" />
+     <Compile Include="Assets\Scripts\Powerups\TransformationPotion.cs" />
      <Compile Include="Assets\Scripts\Weapon.cs" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>C:/Users/nikita/RoguelikeCards/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
