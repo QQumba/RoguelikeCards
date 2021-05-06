@@ -3,30 +3,55 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Hero
+    public class Hero : Card
     {
-        private int _health;
-        private int _maxHealth;
-        public Weapon Weapon;
+        public int MaxHealth = 10;
+        public int Health;
+        public Weapon Weapon { get; private set; }
 
-        public Hero(int maxHealth)
+        private void Start()
         {
-            _maxHealth = maxHealth;
-            _health = maxHealth;
+            Health = MaxHealth;
         }
 
-
-        public int Health
+        public void GiveWeapon(Weapon weapon)
         {
-            get { return _health;}
-            set
+            if (Weapon.Name.Equals(weapon.Name))
             {
-                _health = Mathf.Clamp(value, 0, _maxHealth);
+                Weapon.Damage += weapon.Damage;
             }
-                
+
+            Weapon = weapon;
         }
         
+        public int ApplyDamage(int damage)
+        {
+            Debug.Log($"hero health before damage: {Health}");
+            Debug.Log($"applying [{damage}] damage to hero");
+
+            var healthBeforeDamage = Health;
+            Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
+            Debug.Log($"hero health after damage: {Health}");
+            if (Health <= 0)
+            {
+                Game.Stop();
+            }
+
+            return healthBeforeDamage - Health;
+        }
+
+        public void IncreaseMaxHealth(int value)
+        {
+            if (MaxHealth + value <= 0)
+            {
+                MaxHealth = 1;
+            }
+            MaxHealth += value;
+        }
         
-        
+        public override bool TryEnter(Hero hero)
+        {
+            return false;
+        }
     }
 }

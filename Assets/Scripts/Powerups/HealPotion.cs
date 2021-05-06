@@ -1,14 +1,15 @@
-﻿namespace DefaultNamespace.Powerups
+﻿using UnityEngine;
+
+namespace DefaultNamespace.Powerups
 {
     public class HealPotion : Powerup
     {
-        public HealPotion(Hero hero) : base(hero)
-        {
-        }
+        public int HealingPower = 3;
 
         protected override void PickUp()
         {
-            Hero.Health += 3;
+            Debug.Log($"picked up potion");
+            Game.Hero.ApplyDamage(-HealingPower);
         }
     }
 }

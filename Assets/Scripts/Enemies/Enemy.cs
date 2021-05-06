@@ -1,49 +1,51 @@
-﻿using UnityEngine;
+﻿using System;
+using Unity.Mathematics;
+using UnityEngine;
 
 namespace DefaultNamespace.Enemies
 {
     public abstract class Enemy : Card
     {
-        protected int _health;
-        protected string _name;
-        protected string _description;
-        
-        
-        protected Enemy(Hero hero, int health) : base(hero)
-        {
-            _health = health;
-        }
 
-        public override bool TryEnter()
+        public int MaxHealth;
+        public int Health;
+        public string Name;
+        public string Description;
+
+        public override bool TryEnter(Hero hero)
         {
-            if (Hero.Weapon is null)
+            if (hero.Weapon is null)
             {
-                Hero.Health -= _health;
-                ApplyDamage(Hero.Health);
+                if (hero.Health <= 1)
+                {
+                    hero.ApplyDamage(hero.Health);
+                }   
+                var damageApplied = ApplyDamage(hero.Health);
+                hero.ApplyDamage(damageApplied);
                 return true;
             }
 
-            var damageConsumed = _health;
-            ApplyDamage(Hero.Weapon.Damage);
-            Hero.Weapon.Damage -= damageConsumed;
+            hero.Weapon.Attack(this);
             return false;
         }
 
-        void ApplyDamage(int damage)
+        public virtual int ApplyDamage(int damage)
         {
-            _health -= damage;
-            if (_health <= 0)
+            var healthBeforeDamage = Health;
+            Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
+            if (Health <= 0)
             {
                 Die();
                 
             }
+
+            return healthBeforeDamage - Health;
         }
 
-        void Die()
+        public virtual void Die()
         {
-            
-            Debug.Log("lol i died");
-            
+
+            Debug.Log($"{Name} died.");
         }
     }
 }
