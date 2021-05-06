@@ -1,7 +1,22 @@
-﻿namespace DefaultNamespace.Chests
+﻿using System;
+
+namespace DefaultNamespace.Chests
 {
-    public class Chest
+    public abstract class Chest : Card
     {
-       // NIKITA LOX 
+        protected Chest(Hero hero, int health) : base(hero)
+        {
+            
+        }
+
+        public override bool TryEnter()
+        {
+            OnOpen();
+            return false;
+        }
+        protected abstract void OnOpen();
+        {
+            
+        }
     }
 }
