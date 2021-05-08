@@ -4,6 +4,7 @@ namespace DefaultNamespace.Enemies
 {
     public abstract class Enemy : Card
     {
+
         public int MaxHealth;
         public int Health;
         public string Name;
@@ -33,6 +34,7 @@ namespace DefaultNamespace.Enemies
             if (Health <= 0)
             {
                 Die();
+                
             }
 
             return healthBeforeDamage - Health;
@@ -40,6 +42,7 @@ namespace DefaultNamespace.Enemies
 
         public virtual void Die()
         {
+
             Debug.Log($"{Name} died.");
         }
     }

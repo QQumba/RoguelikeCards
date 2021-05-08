@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
+using System;
 
 namespace DefaultNamespace.Chests
 {
@@ -14,5 +14,6 @@ namespace DefaultNamespace.Chests
        {
            Destroy(this.gameObject);
        }
+
     }
 }
