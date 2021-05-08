@@ -1,11 +1,18 @@
-﻿namespace DefaultNamespace.Chests
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace DefaultNamespace.Chests
 {
     public abstract class Chest : Card
     {
-       // NIKITA LOX 
        public override bool TryEnter(Hero hero)
        {
-           throw new System.NotImplementedException();
+           Open();
+           return false;
+       }
+
+       public virtual void Open()
+       {
+           Destroy(this.gameObject);
        }
     }
 }

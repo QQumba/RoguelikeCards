@@ -64,9 +64,8 @@ namespace DefaultNamespace
                     Debug.Log($"card position: {Game.GetCardPosition(this)}");
                     Debug.Log($"hero position: {Game.GetCardPosition(Game.Hero)}");
                     Destroy(this.GetComponent<BoxCollider2D>());
-                    Game.SwapCards(this, Game.Hero);
-                    StartCoroutine(nameof(Shrink));
-                    MoveHero();
+                    // Game.SwapCards(this, Game.Hero);
+                    Game.MoveHero(this);
                 }
             }
         }
@@ -78,86 +77,6 @@ namespace DefaultNamespace
         private void Swap()
         {
             Game.SwapCards(this, Game.Hero);
-        }
-
-        private void MoveHero()
-        {
-            if (Game.Hero.Top == this)
-            {
-                StartCoroutine(nameof(MoveTop));
-            }
-            if (Game.Hero.Bottom == this)
-            {
-                StartCoroutine(nameof(MoveBottom));
-            }
-            if (Game.Hero.Left == this)
-            {
-                StartCoroutine(nameof(MoveLeft));
-            }
-            if (Game.Hero.Right == this)
-            {
-                StartCoroutine(nameof(MoveRight));
-            }
-        }
-        
-        private IEnumerator MoveTop()
-        {
-            var position = this.Game.Hero.transform.position;
-            for (float i = 0f; i <= 1; i += 0.01f)
-            {
-                var move = new Vector3(0, i, 0);
-                this.Game.Hero.transform.position = position - move; 
-                yield return new WaitForSeconds(.0001f);
-            }
-            // Game.SwapCards(Game.Hero, this);
-        }
-        
-        private IEnumerator MoveBottom()
-        {
-            var position = this.Game.Hero.transform.position;
-            for (float i = 0f; i <= 1; i += 0.01f)
-            {
-                var move = new Vector3(0, i, 0);
-                this.Game.Hero.transform.position = position + move; 
-                yield return new WaitForSeconds(.0001f);
-            }
-            // Game.SwapCards(Game.Hero, this);
-        }
-        
-        private IEnumerator MoveLeft()
-        {
-            var position = this.Game.Hero.transform.position;
-            for (float i = 0f; i <= 1; i += 0.01f)
-            {
-                var move = new Vector3(i, 0, 0);
-                this.Game.Hero.transform.position = position + move; 
-                yield return new WaitForSeconds(.0001f);
-            }
-            // Game.SwapCards(Game.Hero, this);
-        }
-        
-        private IEnumerator MoveRight()
-        {
-            var position = this.Game.Hero.transform.position;
-            for (float i = 0f; i <= 1; i += 0.01f)
-            {
-                var move = new Vector3(i, 0, 0);
-                this.Game.Hero.transform.position = position - move; 
-                yield return new WaitForSeconds(.0001f);
-            }
-            // Game.SwapCards(Game.Hero, this);
-        }
-        
-        private IEnumerator Shrink()
-        {
-            for (float i = 1f; i >= 0; i -= 0.01f)
-            {
-                var currentScale = new Vector2(i, i);
-                transform.localScale = currentScale;
-                yield return new WaitForSeconds(.0001f);
-                // Delete();
-            }
-            
         }
     }
 }

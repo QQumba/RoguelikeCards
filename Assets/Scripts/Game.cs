@@ -55,10 +55,26 @@ namespace DefaultNamespace
             int heroIndex = this.GetGameCardIndex(Hero);
             int cardIndex = this.GetGameCardIndex(card);
 
-            Cards[cardIndex] = Hero;
             RemoveCard(card);
+            Cards[cardIndex] = Hero;
+            Cards[heroIndex] = null;
             
             GenerateCard(heroIndex);
+            UpdateCardsPosition();
+        }
+
+        public void ReplaceCard(Card source, Card destination)
+        {
+            var destinationIndex = this.GetGameCardIndex(destination);
+
+            var card = Instantiate(source, Vector3.zero, Quaternion.identity);
+            RemoveCard(destination);
+            
+            card.Game = this;
+            Cards[destinationIndex] = card;
+            
+            
+            UpdateCardsPosition();
         }
 
         public void GenerateCard(int index)
@@ -70,6 +86,7 @@ namespace DefaultNamespace
             }
             
             var card = CardGenerator.GenerateCard();
+            card.Game = this;
             Cards[index] = card;
         }
 
@@ -94,7 +111,6 @@ namespace DefaultNamespace
                 }
                 else
                 {
-                    // card = Instantiate(AllPowerups[Random.Range(0, AllPowerups.Length)], Vector3.zero, Quaternion.identity);
                     card = CardGenerator.GenerateCard();
                 }
                 
