@@ -1,16 +1,23 @@
 ﻿using DefaultNamespace.Enemies;
-using UnityEngine;
 
 namespace DefaultNamespace.Factories
 {
     public class EnemyFactory : CardFactory
     {
+        public GameState GameState;
         public Enemy[] Enemies;
-        
+        public int MaxEnemies = 4;
+
+        private GenericCardFactory<Enemy> _factory;
+
+        private void Start()
+        {
+            _factory = new GenericCardFactory<Enemy>(GameState, Enemies, MaxEnemies);
+        }
 
         public override Card GetCard()
         {
-            return Enemies[Random.Range(0, Enemies.Length)];
+            return _factory.GetCard();
         }
     }
 }

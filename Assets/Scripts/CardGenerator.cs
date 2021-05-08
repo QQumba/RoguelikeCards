@@ -6,7 +6,6 @@ namespace DefaultNamespace
 {
     public class CardGenerator : MonoBehaviour
     {
-        public GameState GameState;
         public CardFactory[] Factories;    
         
         
