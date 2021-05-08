@@ -1,6 +1,6 @@
 ﻿namespace DefaultNamespace
 {
-    public static class GameExtensions
+    public class GamePresenter
     {
         
     }

@@ -1,13 +1,23 @@
-﻿using System;
-using DefaultNamespace.Chests;
+﻿using DefaultNamespace.Chests;
 
 namespace DefaultNamespace.Factories
 {
-    public class ChestsFactory : ICardFactory
+    public class ChestsFactory : CardFactory
     {
-        public Card GetCard()
+        public GameState GameState;
+        public Chest[] Chests;
+        public int MaxChests = 4;
+
+        private GenericCardFactory<Chest> _factory;
+
+        private void Start()
         {
-            throw new Exception();
+            _factory = new GenericCardFactory<Chest>(GameState, Chests, MaxChests);
+        }
+
+        public override Card GetCard()
+        {
+            return _factory.GetCard();
         }
     }
 }

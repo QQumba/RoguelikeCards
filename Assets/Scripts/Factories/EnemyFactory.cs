@@ -1,15 +1,23 @@
-﻿using System;
-using DefaultNamespace.Enemies;
-using DefaultNamespace.Powerups;
-using UnityEngine;
+﻿using DefaultNamespace.Enemies;
 
 namespace DefaultNamespace.Factories
 {
-    public class EnemyFactory : ICardFactory
+    public class EnemyFactory : CardFactory
     {
-        public Card GetCard()
+        public GameState GameState;
+        public Enemy[] Enemies;
+        public int MaxEnemies = 4;
+
+        private GenericCardFactory<Enemy> _factory;
+
+        private void Start()
         {
-            throw new Exception();
+            _factory = new GenericCardFactory<Enemy>(GameState, Enemies, MaxEnemies);
+        }
+
+        public override Card GetCard()
+        {
+            return _factory.GetCard();
         }
     }
 }

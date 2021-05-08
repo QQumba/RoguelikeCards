@@ -1,29 +1,23 @@
-﻿using DefaultNamespace.Enemies;
-using DefaultNamespace.Powerups;
-using Unity.Mathematics;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using DefaultNamespace.Powerups;
 
 namespace DefaultNamespace.Factories
 {
-    public class PowerupFactory : ICardFactory
+    public class PowerupFactory : CardFactory
     {
-        private readonly Game _game;
-        private readonly Powerup[] _powerups;
+        public GameState GameState;
+        public Powerup[] Powerups;
+        public int MaxPowerups = 4;
 
-        public int SpawnChanceThreshold { get; }
+        private GenericCardFactory<Powerup> _factory;
 
-        public PowerupFactory(Game game, Powerup[] powerups, int spawnChanceThreshold)
+        private void Start()
         {
-            _game = game;
-            _powerups = powerups;
-            SpawnChanceThreshold = spawnChanceThreshold;
+            _factory = new GenericCardFactory<Powerup>(GameState, Powerups, MaxPowerups);
         }
 
-        public Card GetCard()
+        public override Card GetCard()
         {
-            //todo return card
-            return null;
+            return _factory.GetCard();
         }
     }
 }
