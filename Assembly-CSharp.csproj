@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\Factories\PowerupFactory.cs" />
      <Compile Include="Assets\Scripts\GameState.cs" />
      <Compile Include="Assets\Scripts\Chests\TreasureChest.cs" />
+     <Compile Include="Assets\Scripts\Powerups\Sword.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
