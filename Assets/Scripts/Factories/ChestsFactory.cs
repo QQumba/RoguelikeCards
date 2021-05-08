@@ -3,9 +3,9 @@ using DefaultNamespace.Chests;
 
 namespace DefaultNamespace.Factories
 {
-    public class ChestsFactory : ICardFactory
+    public class ChestsFactory : CardFactory
     {
-        public Card GetCard()
+        public override Card GetCard()
         {
             throw new Exception();
         }

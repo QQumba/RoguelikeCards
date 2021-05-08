@@ -1,15 +1,16 @@
-﻿using System;
-using DefaultNamespace.Enemies;
-using DefaultNamespace.Powerups;
+﻿using DefaultNamespace.Enemies;
 using UnityEngine;
 
 namespace DefaultNamespace.Factories
 {
-    public class EnemyFactory : ICardFactory
+    public class EnemyFactory : CardFactory
     {
-        public Card GetCard()
+        public Enemy[] Enemies;
+        
+
+        public override Card GetCard()
         {
-            throw new Exception();
+            return Enemies[Random.Range(0, Enemies.Length)];
         }
     }
 }

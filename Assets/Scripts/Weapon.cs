@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using DefaultNamespace.Enemies;
-using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace DefaultNamespace
 {

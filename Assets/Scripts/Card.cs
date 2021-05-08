@@ -1,4 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Threading;
+using System.Threading.Tasks;
 using DefaultNamespace.Powerups;
 using UnityEngine;
 using Vector2 = UnityEngine.Vector2;
@@ -20,6 +23,12 @@ namespace DefaultNamespace
         public bool IsAdjacent(Card card)
         {
             return card == Top || card == Bottom || card == Left || card == Right;
+        }
+
+        public void AssignToGame(Game game)
+        {
+            Game = game;
+            transform.position = Game.GetCardPosition(this);
         }
 
         public abstract bool TryEnter(Hero hero);
@@ -55,6 +64,7 @@ namespace DefaultNamespace
                     Debug.Log($"card position: {Game.GetCardPosition(this)}");
                     Debug.Log($"hero position: {Game.GetCardPosition(Game.Hero)}");
                     Destroy(this.GetComponent<BoxCollider2D>());
+                    Game.SwapCards(this, Game.Hero);
                     StartCoroutine(nameof(Shrink));
                     MoveHero();
                 }
@@ -96,9 +106,10 @@ namespace DefaultNamespace
             for (float i = 0f; i <= 1; i += 0.01f)
             {
                 var move = new Vector3(0, i, 0);
-                this.Game.Hero.transform.position = position + move; 
+                this.Game.Hero.transform.position = position - move; 
                 yield return new WaitForSeconds(.0001f);
             }
+            // Game.SwapCards(Game.Hero, this);
         }
         
         private IEnumerator MoveBottom()
@@ -107,9 +118,10 @@ namespace DefaultNamespace
             for (float i = 0f; i <= 1; i += 0.01f)
             {
                 var move = new Vector3(0, i, 0);
-                this.Game.Hero.transform.position = position - move; 
+                this.Game.Hero.transform.position = position + move; 
                 yield return new WaitForSeconds(.0001f);
             }
+            // Game.SwapCards(Game.Hero, this);
         }
         
         private IEnumerator MoveLeft()
@@ -118,9 +130,10 @@ namespace DefaultNamespace
             for (float i = 0f; i <= 1; i += 0.01f)
             {
                 var move = new Vector3(i, 0, 0);
-                this.Game.Hero.transform.position = position - move; 
+                this.Game.Hero.transform.position = position + move; 
                 yield return new WaitForSeconds(.0001f);
             }
+            // Game.SwapCards(Game.Hero, this);
         }
         
         private IEnumerator MoveRight()
@@ -129,9 +142,10 @@ namespace DefaultNamespace
             for (float i = 0f; i <= 1; i += 0.01f)
             {
                 var move = new Vector3(i, 0, 0);
-                this.Game.Hero.transform.position = position + move; 
+                this.Game.Hero.transform.position = position - move; 
                 yield return new WaitForSeconds(.0001f);
             }
+            // Game.SwapCards(Game.Hero, this);
         }
         
         private IEnumerator Shrink()
@@ -143,7 +157,7 @@ namespace DefaultNamespace
                 yield return new WaitForSeconds(.0001f);
                 // Delete();
             }
-            Game.SwapCards(this, Game.Hero);
+            
         }
     }
 }
