@@ -24,6 +24,7 @@ namespace DefaultNamespace.Enemies
             }
 
             hero.Weapon.Attack(this);
+            // TODO ATTACK
             return false;
         }
 

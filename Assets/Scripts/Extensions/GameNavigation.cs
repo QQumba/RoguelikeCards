@@ -20,7 +20,7 @@ namespace DefaultNamespace
             var index = currentCardIndex + game.SideSize;
             return IsCardIndexInbound(game, index) ? game.Cards[index] : null;
         }
-
+ 
         public static Card Bottom(this Game game, Card card)
         {
             var currentCardIndex = GetGameCardIndex(game, card);
