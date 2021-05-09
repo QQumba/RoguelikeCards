@@ -11,6 +11,7 @@ namespace DefaultNamespace.Factories
 
         public GenericCardFactory(GameState gameState, TCard[] cards, int maxCards)
         {
+            Debug.Log($"GenericCarFactory of type {typeof(TCard)}");
             _gameState = gameState;
             _cards = cards;
             _maxCards = maxCards;

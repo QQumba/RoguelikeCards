@@ -1,14 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
 using DefaultNamespace.Factories;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace DefaultNamespace
 {
     public class CardGenerator : MonoBehaviour
     {
-        public CardFactory[] Factories;    
+        public CardFactory[] Factories;
         
-        
+        private void Start()
+        {
+            Debug.Log("CardGenerator initialized");
+        }
+
         public Card GenerateCard()
         {
             var maxAttempts = 100;

@@ -77,8 +77,8 @@ namespace DefaultNamespace
 
             return cards;
         }
-        
-        private void Start()
+
+        private void Awake()
         {
             Cards = new Card[SideSize * SideSize];
         }
