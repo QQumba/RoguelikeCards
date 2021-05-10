@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using DefaultNamespace.Enemies;
+using UnityEngine;
 
 namespace DefaultNamespace
 {
@@ -14,13 +15,25 @@ namespace DefaultNamespace
             PickUp();
             return true;
         }
-        
+
         protected abstract void PickUp();
         
-        public void Attack(Card enemy)
+        
+
+        public virtual void Attack(Enemy enemy)
         {
-            var card = enemy;
-            (enemy as Enemy)?.ApplyDamage(Damage);
+            Debug.Log("Enemy attached");
+            enemy.ApplyDamage(Damage);
+            Damage -= enemy.Health;
+            Debug.Log("Damage chenged");
+            if (Damage < 0)
+                Game.Hero.Weapon = null;
+                
+            if (enemy.Health > 0)
+               Game.Hero.Weapon = null;
+            
+          
+            
         }
     }
 }

@@ -13,17 +13,11 @@ namespace DefaultNamespace.Enemies
         {
             if (hero.Weapon is null)
             {
-                if (hero.Health <= 1)
-                {
-                    hero.ApplyDamage(hero.Health);
-                }   
                 var damageApplied = ApplyDamage(hero.Health);
                 hero.ApplyDamage(damageApplied);
                 return true;
             }
-
             hero.Weapon.Attack(this);
-            // TODO ATTACK
             return false;
         }
 
@@ -34,15 +28,13 @@ namespace DefaultNamespace.Enemies
             if (Health <= 0)
             {
                 Die();
-                
             }
-
             return healthBeforeDamage - Health;
         }
 
         public virtual void Die()
         {
-
+           
             Debug.Log($"{Name} died.");
         }
     }

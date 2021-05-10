@@ -6,10 +6,10 @@ namespace DefaultNamespace.Factories
     {
         public GameState GameState;
         public Weapon[] Weapons;
-        public int MaxWeapons = 2;
+        public int MaxWeapons;
 
         private GenericCardFactory<Weapon> _factory;
-        public void Start()
+        public void Awake()
         {
             _factory = new GenericCardFactory<Weapon>(GameState, Weapons, MaxWeapons);
         }
