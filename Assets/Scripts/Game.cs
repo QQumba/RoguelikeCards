@@ -43,7 +43,7 @@ namespace DefaultNamespace
             var index = this.GetGameCardIndex(card);
             Cards[index] = null;
             
-            Destroy(card.gameObject);
+            card.Remove();
         }
 
         public void SwapCards(Card from, Card to)
@@ -71,8 +71,8 @@ namespace DefaultNamespace
             
             Cards[toIndex] = card;
             Cards[fromIndex] = null;
-            
-            UpdateCardsPosition();
+            card.Move(this.GetCardPosition(fromIndex), this.GetCardPosition(toIndex));   
+            // UpdateCardsPosition();
         }
 
         public void ShiftCards(int index)
@@ -238,7 +238,7 @@ namespace DefaultNamespace
             
             // GenerateCard(heroIndex);
             ShiftCards(heroIndex);
-            UpdateCardsPosition();
+            Hero.Move(this.GetCardPosition(heroIndex), this.GetCardPosition(cardIndex));
         }
 
         public void ReplaceCard(Card source, Card destination)
@@ -264,8 +264,8 @@ namespace DefaultNamespace
             }
             
             var card = CardGenerator.GenerateCard();
-            card.Game = this;
             Cards[index] = card;
+            card.AssignToGame(this);
         }
 
         public void UpdateCardsPosition()
@@ -297,10 +297,10 @@ namespace DefaultNamespace
                     card = CardGenerator.GenerateCard();
                 }
                 
-                card.Game = this;
                 GameState.Cards[i] = card;
+                card.AssignToGame(this);
                 
-                card.transform.position = this.GetCardPosition(GameState.Cards[i]);
+                //card.transform.position = this.GetCardPosition(GameState.Cards[i]);
             }
         }
     }

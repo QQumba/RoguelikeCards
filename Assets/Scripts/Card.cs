@@ -13,8 +13,6 @@ namespace DefaultNamespace
     {
         public Game Game;
 
-        private bool _isAnimationActive = false;
-        
         public Card Top => Game.Top(this);
         public Card Bottom => Game.Bottom(this);
         public Card Left => Game.Left(this);
@@ -29,13 +27,14 @@ namespace DefaultNamespace
         {
             Game = game;
             transform.position = Game.GetCardPosition(this);
+            StartCoroutine(Grow());
         }
 
         public abstract bool TryEnter(Hero hero);
 
         public void OnMouseDown()
         {
-            if (_isAnimationActive)
+            if (Game.Hero.IsMoving)
             {
                 return;
             }
@@ -51,9 +50,46 @@ namespace DefaultNamespace
                 }
             }
         }
-        public void Delete()
+        
+        public void Remove()
         {
+            StartCoroutine(Shrink());
+        }
+
+        public virtual void Move(Vector2 from, Vector2 to)
+        {
+            StartCoroutine(MoveTo(from, to));
+        }
+        
+        private IEnumerator Shrink()
+        {
+            var scale = transform.localScale;
+            for (float i = 0; i < 1; i+=Time.deltaTime * 4)
+            {
+                transform.localScale = Vector3.Lerp(scale, Vector3.zero, i);
+                yield return null;
+            }
             Destroy(this.gameObject);
+        }
+
+        private IEnumerator Grow()
+        {
+            for (float i = 0; i < 1; i+=Time.deltaTime * 4)
+            {
+                transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, i);
+                yield return null;
+            }
+        }
+
+        protected virtual IEnumerator MoveTo(Vector2 from, Vector2 to)
+        {
+            var fromV3 = new Vector3(from.x, from.y, 0);
+            var toV3 = new Vector3(to.x, to.y, 0);
+            for (float i = 0; i < 1; i+=Time.deltaTime * 4)
+            {
+                transform.position = Vector3.Lerp(fromV3, toV3, i);
+                yield return null;
+            }
         }
 
         private void Swap()
