@@ -8,13 +8,12 @@
             MaxHealth = 8;
             Health = MaxHealth;
         }
-        public int Die(int damage)
+        
+        public override void Die()
         {
-            
+            Game.Hero.ApplyDamage(-4);
             base.Die();
-            return base.ApplyDamage(damage) + 4;
         }
-        
-        
+
     }
 }

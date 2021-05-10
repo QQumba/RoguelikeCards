@@ -5,14 +5,9 @@ namespace DefaultNamespace
 {
     public abstract class Weapon : Card
     {
-        public string Name { get; private set; }
-        public int Damage { get; set; }
+        public string Name;
+        public int Damage;
         
-        public Weapon(string name, int damage)
-        {
-            Name = name;
-            Damage = damage;
-        }
         
         public override bool TryEnter(Hero hero)
         {

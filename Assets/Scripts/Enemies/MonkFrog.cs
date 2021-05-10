@@ -11,7 +11,9 @@
 
         public void Die()
         {
+           
             
+            base.Die();
         }
         
         
