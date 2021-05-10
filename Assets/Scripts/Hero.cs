@@ -1,17 +1,33 @@
 ﻿using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
     public class Hero : Card
     {
-        public int MaxHealth = 10;
-        public int Health;
-        public Weapon Weapon { get; private set; }
+        [SerializeField] private int _maxHealth = 10;
+        [SerializeField] private int _health;
+        [SerializeField] private TextMeshPro _healthUI;
+        [SerializeField] private TextMeshPro _attackUI;
 
+
+        public bool IsMoving { get; private set; }
+        
+        public int Health => _health;
+
+        public Weapon Weapon { get; private set; }
+        
         private void Start()
         {
-            Health = MaxHealth;
+            _health = _maxHealth;
+        }
+
+        private void Update()
+        {
+            _healthUI.text = $"{_health}/{_maxHealth}";
+            _attackUI.text = Weapon == null ? "0" : Weapon.Damage.ToString();
         }
 
         public void GiveWeapon(Weapon weapon)
@@ -26,32 +42,51 @@ namespace DefaultNamespace
         
         public int ApplyDamage(int damage)
         {
-            Debug.Log($"hero health before damage: {Health}");
+            Debug.Log($"hero health before damage: {_health}");
             Debug.Log($"applying [{damage}] damage to hero");
 
-            var healthBeforeDamage = Health;
-            Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
-            Debug.Log($"hero health after damage: {Health}");
-            if (Health <= 0)
+            var healthBeforeDamage = _health;
+            _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
+            Debug.Log($"hero health after damage: {_health}");
+            if (_health <= 0)
             {
                 Game.Stop();
             }
 
-            return healthBeforeDamage - Health;
+            return healthBeforeDamage - _health;
         }
 
         public void IncreaseMaxHealth(int value)
         {
-            if (MaxHealth + value <= 0)
+            if (_maxHealth + value <= 0)
             {
-                MaxHealth = 1;
+                _maxHealth = 1;
             }
-            MaxHealth += value;
+            _maxHealth += value;
         }
         
         public override bool TryEnter(Hero hero)
         {
             return false;
+        }
+
+        public override void Move(Vector2 from, Vector2 to)
+        {
+            IsMoving = true;
+            StartCoroutine(MoveTo(from, to));
+        }
+
+        protected override IEnumerator MoveTo(Vector2 from, Vector2 to)
+        {
+            var fromV3 = new Vector3(from.x, from.y, 0);
+            var toV3 = new Vector3(to.x, to.y, 0);
+            for (float i = 0; i < 1; i+=Time.deltaTime * 4)
+            {
+                transform.position = Vector3.Lerp(fromV3, toV3, i);
+                yield return null;
+            }
+
+            IsMoving = false;
         }
     }
 }

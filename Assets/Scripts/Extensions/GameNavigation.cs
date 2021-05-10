@@ -14,40 +14,58 @@ namespace DefaultNamespace
         // 0 1 2             0     top        2
         public static Card Top(this Game game, Card card)
         {
-            var currentCardIndex = GetGameCardIndex(game, card);
-            Debug.Log($"clicked card index: {currentCardIndex}");
-            Debug.Log($"top card index: {currentCardIndex}");
-            var index = currentCardIndex + game.SideSize;
-            return IsCardIndexInbound(game, index) ? game.Cards[index] : null;
+            var index = GetGameCardIndex(game, card);
+            return Top(game, index);
+        }
+
+        public static Card Top(this Game game, int index)
+        {
+            var newIndex = index + game.SideSize;
+            return IsCardIndexInbound(game, newIndex) ? game.Cards[newIndex] : null;
         }
  
         public static Card Bottom(this Game game, Card card)
         {
-            var currentCardIndex = GetGameCardIndex(game, card);
-            var index = currentCardIndex - game.SideSize;
-            return IsCardIndexInbound(game, index) ? game.Cards[index] : null;
+            var index = GetGameCardIndex(game, card);
+            return Bottom(game, index);
+        }
+        
+        public static Card Bottom(this Game game, int index)
+        {
+            var newIndex = index - game.SideSize;
+            return IsCardIndexInbound(game, newIndex) ? game.Cards[newIndex] : null;
         }
         
         public static Card Left(this Game game, Card card)
         {
-            var currentCardIndex = GetGameCardIndex(game, card);
-            if (currentCardIndex % game.SideSize == 0)
-            {
-                return null;
-            }
-            var index = currentCardIndex - 1;
-            return IsCardIndexInbound(game, index) ? game.Cards[index] : null;
+            var index = GetGameCardIndex(game, card);
+            return Left(game, index);
         }
         
-        public static Card Right(this Game game, Card card)
+        public static Card Left(this Game game, int index)
         {
-            var currentCardIndex = GetGameCardIndex(game, card);
-            var index = currentCardIndex + 1;
             if (index % game.SideSize == 0)
             {
                 return null;
             }
-            return IsCardIndexInbound(game, index) ? game.Cards[index] : null;
+            var newIndex = index - 1;
+            return IsCardIndexInbound(game, newIndex) ? game.Cards[newIndex] : null;
+        }
+        
+        public static Card Right(this Game game, Card card)
+        {
+            var index = GetGameCardIndex(game, card);
+            return Right(game, index);
+        }
+        
+        public static Card Right(this Game game, int index)
+        {
+            var newIndex = index + 1;
+            if (newIndex % game.SideSize == 0)
+            {
+                return null;
+            }
+            return IsCardIndexInbound(game, newIndex) ? game.Cards[newIndex] : null;
         }
 
         public static int GetGameCardIndex(this Game game, Card card)
@@ -69,7 +87,7 @@ namespace DefaultNamespace
             return position;
         }
 
-        private static bool IsCardIndexInbound(this Game game, int index)
+        public static bool IsCardIndexInbound(this Game game, int index)
         {
             return index >= 0 && index < game.Cards.Length;
         }

@@ -1,4 +1,7 @@
-﻿using DefaultNamespace.Chests;
+﻿using System;
+using DefaultNamespace.Chests;
+using TMPro.EditorUtilities;
+using UnityEngine;
 
 namespace DefaultNamespace.Factories
 {
@@ -9,8 +12,8 @@ namespace DefaultNamespace.Factories
         public int MaxChests = 4;
 
         private GenericCardFactory<Chest> _factory;
-
-        private void Start()
+        
+        private void Awake()
         {
             _factory = new GenericCardFactory<Chest>(GameState, Chests, MaxChests);
         }
