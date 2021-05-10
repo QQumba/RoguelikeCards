@@ -69,10 +69,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2578666096178260323}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b42751ab6014f5281a35df42531d105, type: 3}
+  m_Script: {fileID: 11500000, guid: 2f272c8331d74b8298df608493fee3a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Game: {fileID: 0}
+  Name: Sword
+  Damage: 5
 --- !u!1 &2625853170441714594
 GameObject:
   m_ObjectHideFlags: 0

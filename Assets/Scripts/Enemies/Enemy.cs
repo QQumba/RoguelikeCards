@@ -4,7 +4,6 @@ namespace DefaultNamespace.Enemies
 {
     public abstract class Enemy : Card
     {
-
         public int MaxHealth;
         public int Health;
         public string Name;
