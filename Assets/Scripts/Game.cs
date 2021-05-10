@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using DefaultNamespace.Enemies;
 using DefaultNamespace.Factories;
 using DefaultNamespace.Powerups;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -20,6 +24,7 @@ namespace DefaultNamespace
         private void Start()
         {
             InitializeGameField();
+            Debug.Log("Game initialized");
         }
 
         public void Stop()
@@ -38,7 +43,7 @@ namespace DefaultNamespace
             var index = this.GetGameCardIndex(card);
             Cards[index] = null;
             
-            Destroy(card.gameObject);
+            card.Remove();
         }
 
         public void SwapCards(Card from, Card to)
@@ -50,6 +55,178 @@ namespace DefaultNamespace
             Cards[toIndex] = from;
         }
 
+        public void MoveCard(int fromIndex, int toIndex)
+        {
+            if (!this.IsCardIndexInbound(fromIndex))
+            {
+                return;
+            }
+            if (Cards[toIndex] != null)
+            {
+                Debug.Log($"Game.MoveCard -> can't move card from index [{fromIndex}] to index [{toIndex}]. Trying to move card to existing card.");
+                return;
+            }
+
+            var card = Cards[fromIndex];
+            
+            Cards[toIndex] = card;
+            Cards[fromIndex] = null;
+            card.Move(this.GetCardPosition(fromIndex), this.GetCardPosition(toIndex));   
+            // UpdateCardsPosition();
+        }
+
+        public void ShiftCards(int index)
+        {
+            var counts = new[]
+            {
+                GetTopCardsCount(index),
+                GetRightCardsCount(index),
+                GetBottomCardsCount(index),
+                GetLeftCardsCount(index)
+            };
+
+            if (counts[0] == counts.Max())
+            {
+                Debug.Log($"Max card on top: {counts.Max()}");
+                ShiftBottom(index);
+                return;
+            }
+            if (counts[1] == counts.Max())
+            {
+                Debug.Log($"Max card on right: {counts.Max()}");
+                ShiftLeft(index);
+                return;
+            }
+            if (counts[2] == counts.Max())
+            {
+                Debug.Log($"Max card on bottom: {counts.Max()}");
+                ShiftTop(index);
+                return;
+            }
+            if (counts[3] == counts.Max())
+            {
+                Debug.Log($"Max card on left: {counts.Max()}");
+                ShiftRight(index);
+                return;
+            }
+        }
+
+        public int GetTopCardsCount(int index)
+        {
+            var edgeIndex = SideSize * (SideSize - 1) + (index % SideSize);
+            for (int i = index; i <= edgeIndex; i += SideSize)
+            {
+                if (Cards[i] == Hero)
+                {
+                    return 0;
+                }
+            }
+
+            return (edgeIndex - index) / SideSize;
+        }
+
+        public int GetBottomCardsCount(int index)
+        {
+            var edgeIndex = index % SideSize;
+            for (int i = index; i >= edgeIndex; i -= SideSize)
+            {
+                if (Cards[i] == Hero)
+                {
+                    return 0;
+                }
+            }
+
+            return (index - edgeIndex) / SideSize;
+        }
+
+        public int GetRightCardsCount(int index)
+        {
+            var edgeIndex = index + SideSize - 1 - index % SideSize;
+            for (int i = index; i <= edgeIndex; i++)
+            {
+                if (Cards[i] == Hero)
+                {
+                    return 0;
+                }
+            }
+
+            return edgeIndex - index;
+        }
+
+        public int GetLeftCardsCount(int index)
+        {
+            var edgeIndex = index / SideSize * SideSize;
+            for (int i = index; i >= edgeIndex; i--)
+            {
+                if (Cards[i] == Hero)
+                {
+                    return 0;
+                }
+            }
+
+            return index - edgeIndex;
+        }
+        
+        public void ShiftTop(int index)
+        {
+            var edgeIndex = index % SideSize;
+            for (int i = index; i >= edgeIndex; i -= SideSize)
+            {
+                if (i == edgeIndex)
+                {
+                    GenerateCard(i);
+                    return;
+                }
+                MoveCard(i - SideSize, i);
+            }
+        }
+        
+        public void ShiftBottom(int index)
+        {
+            var edgeIndex = SideSize * (SideSize - 1) + (index % SideSize);
+            for (int i = index; i <= edgeIndex; i += SideSize)
+            {
+                if (i == edgeIndex)
+                {
+                    GenerateCard(i);
+                    return;
+                }
+                MoveCard(i + SideSize, i);
+            }
+        }
+        
+        public void ShiftRight(int index)
+        {
+            var edgeIndex = index / SideSize * SideSize;
+            for (int i = index; i >= edgeIndex; i--)
+            {
+                if (i == edgeIndex)
+                {
+                    GenerateCard(i);
+                    return;
+                }
+                MoveCard(i - 1, i);
+            }
+        }
+        
+        // 6 7 8 
+        // 3 4 5 
+        // 0 1 2 
+        
+        public void ShiftLeft(int index)
+        {
+            var edgeIndex = index + SideSize - 1 - index % SideSize;
+            for (int i = index; i <= edgeIndex; i++)
+            {
+                if (i == edgeIndex)
+                {
+                    GenerateCard(i);
+                    return;
+                }
+                MoveCard(i + 1, i);
+            }
+        }
+
         public void MoveHero(Card card)
         {
             int heroIndex = this.GetGameCardIndex(Hero);
@@ -59,8 +236,9 @@ namespace DefaultNamespace
             Cards[cardIndex] = Hero;
             Cards[heroIndex] = null;
             
-            GenerateCard(heroIndex);
-            UpdateCardsPosition();
+            // GenerateCard(heroIndex);
+            ShiftCards(heroIndex);
+            Hero.Move(this.GetCardPosition(heroIndex), this.GetCardPosition(cardIndex));
         }
 
         public void ReplaceCard(Card source, Card destination)
@@ -86,14 +264,19 @@ namespace DefaultNamespace
             }
             
             var card = CardGenerator.GenerateCard();
-            card.Game = this;
             Cards[index] = card;
+            card.AssignToGame(this);
         }
 
         public void UpdateCardsPosition()
         {
             foreach (var card in Cards)
             {
+                if (card == null)
+                {
+                    continue;
+                }
+
                 card.transform.position = this.GetCardPosition(card);
             }
         }
@@ -114,10 +297,10 @@ namespace DefaultNamespace
                     card = CardGenerator.GenerateCard();
                 }
                 
-                card.Game = this;
                 GameState.Cards[i] = card;
+                card.AssignToGame(this);
                 
-                card.transform.position = this.GetCardPosition(GameState.Cards[i]);
+                //card.transform.position = this.GetCardPosition(GameState.Cards[i]);
             }
         }
     }

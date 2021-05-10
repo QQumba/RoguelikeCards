@@ -1,4 +1,5 @@
-﻿using DefaultNamespace.Powerups;
+﻿using System;
+using DefaultNamespace.Powerups;
 
 namespace DefaultNamespace.Factories
 {
@@ -9,8 +10,8 @@ namespace DefaultNamespace.Factories
         public int MaxPowerups = 4;
 
         private GenericCardFactory<Powerup> _factory;
-
-        private void Start()
+        
+        private void Awake()
         {
             _factory = new GenericCardFactory<Powerup>(GameState, Powerups, MaxPowerups);
         }

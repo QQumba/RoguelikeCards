@@ -15,7 +15,7 @@ namespace DefaultNamespace.Powerups
                 if (Game.Cards[i] is Powerup && Game.Cards[i] != this)
                 {
                     var position = Game.Cards[i].transform.position;
-                    Game.Cards[i].Delete();
+                    Game.Cards[i].Remove();
                     Game.Cards[i] = Instantiate(Enemy, Vector3.zero, Quaternion.identity);
                     Game.Cards[i].AssignToGame(Game);
                 }

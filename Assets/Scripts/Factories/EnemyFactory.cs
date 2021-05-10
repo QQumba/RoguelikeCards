@@ -1,4 +1,5 @@
-﻿using DefaultNamespace.Enemies;
+﻿using System;
+using DefaultNamespace.Enemies;
 
 namespace DefaultNamespace.Factories
 {
@@ -10,7 +11,7 @@ namespace DefaultNamespace.Factories
 
         private GenericCardFactory<Enemy> _factory;
 
-        private void Start()
+        private void Awake()
         {
             _factory = new GenericCardFactory<Enemy>(GameState, Enemies, MaxEnemies);
         }
