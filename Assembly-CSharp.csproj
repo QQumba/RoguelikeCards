@@ -52,6 +52,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Factories\WeaponFactory.cs" />
+     <Compile Include="Assets\Scripts\Enemies\EvilPig.cs" />
      <Compile Include="Assets\Scripts\Enemies\SuspiciousBush.cs" />
      <Compile Include="Assets\Scripts\Weapons\Weapon.cs" />
      <Compile Include="Assets\Scripts\CardGenerator.cs" />
@@ -66,19 +68,17 @@
      <Compile Include="Assets\Scripts\Extensions\CardExtensions.cs" />
      <Compile Include="Assets\Scripts\Chests\Chest.cs" />
      <Compile Include="Assets\Scripts\Factories\CardFactory.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Sword.cs" />
      <Compile Include="Assets\Scripts\Factories\GenericCardFactory.cs" />
      <Compile Include="Assets\Scripts\Factories\ChestsFactory.cs" />
      <Compile Include="Assets\Scripts\Extensions\GameNavigation.cs" />
+     <Compile Include="Assets\Scripts\Enemies\MonkFrog.cs" />
      <Compile Include="Assets\Scripts\Powerups\Powerup.cs" />
      <Compile Include="Assets\Scripts\Factories\EnemyFactory.cs" />
      <Compile Include="Assets\Scripts\Chests\TreasureChest.cs" />
      <Compile Include="Assets\Scripts\GamePresenter.cs" />
      <Compile Include="Assets\Scripts\Factories\PowerupFactory.cs" />
      <Compile Include="Assets\Scripts\GameState.cs" />
-     <Compile Include="Assets\Scripts\Weapons\Sword.cs" />
-     <Compile Include="Assets\Scripts\Enemies\EvilPig.cs" />
-     <Compile Include="Assets\Scripts\Enemies\MonkFrog.cs" />
-     <Compile Include="Assets\Scripts\Factories\WeaponFactory.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
