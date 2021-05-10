@@ -3,17 +3,20 @@ using DefaultNamespace.Enemies;
 
 namespace DefaultNamespace
 {
-    public abstract class Weapon
+    public abstract class Weapon : Card
     {
-        public string Name { get; private set; }
-        public int Damage { get; set; }
+        public string Name;
+        public int Damage;
         
-        public Weapon(string name, int damage)
+        
+        public override bool TryEnter(Hero hero)
         {
-            Name = name;
-            Damage = damage;
+            PickUp();
+            return true;
         }
-
+        
+        protected abstract void PickUp();
+        
         public void Attack(Card enemy)
         {
             var card = enemy;

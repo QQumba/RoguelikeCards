@@ -39,7 +39,6 @@ namespace DefaultNamespace
                 return;
             }
             var pos = Game.GetCardPosition(this);
-            
             if (IsAdjacent(Game.Hero))
             {
                 if (TryEnter(Game.Hero))
