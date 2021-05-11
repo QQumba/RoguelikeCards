@@ -9,10 +9,11 @@
             Health = MaxHealth;
         }
 
-        public void Die()
+        
+
+        public override void Die()
         {
-           
-            
+            Game.Hero.Weapon = null;
             base.Die();
         }
         

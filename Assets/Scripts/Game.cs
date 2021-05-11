@@ -20,7 +20,8 @@ namespace DefaultNamespace
         public int SideSize => GameState.SideSize;
         public Card[] Cards => GameState.Cards;
         public int TurnCount { get; } = 0;
-        
+        public int GoldCount { get; } = 0;
+        public Card Coin;
         private void Start()
         {
             InitializeGameField();
@@ -281,6 +282,10 @@ namespace DefaultNamespace
             }
         }
 
+        public void SpawnCoin(Card card)
+        {
+            ReplaceCard(Coin, card );
+        }
         private void InitializeGameField()
         {
             var playerPosition = Random.Range(0, SideSize * SideSize);
@@ -298,9 +303,10 @@ namespace DefaultNamespace
                 }
                 
                 GameState.Cards[i] = card;
-                card.AssignToGame(this);
-                
-                //card.transform.position = this.GetCardPosition(GameState.Cards[i]);
+                card.Game = this;
+                //card.AssignToGame(this);
+
+                card.transform.position = this.GetCardPosition(GameState.Cards[i]);
             }
         }
     }

@@ -7,17 +7,18 @@ namespace DefaultNamespace.Enemies
         private void Start()
         {
             Name = "Suspicious bush";
-            MaxHealth = 4;
+            MaxHealth = 6;
             Health = MaxHealth;
         }
 
         public override int ApplyDamage(int damage)
         {
-            return base.ApplyDamage(damage) / 2;
+            return base.ApplyDamage(damage);
         }
 
         public override void Die()
         {
+            Game.SpawnCoin(this);
             base.Die();
         }
     }

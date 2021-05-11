@@ -25,7 +25,6 @@ namespace DefaultNamespace.Factories
             {
                 return GetCardOrNull(chance, 40);
             }
-
             return GetCardOrNull(chance, 5);
         }
 
