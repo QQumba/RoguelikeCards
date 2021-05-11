@@ -22,6 +22,7 @@ namespace DefaultNamespace
         private void Start()
         {
             _health = _maxHealth;
+            //Weapon = null;
         }
 
         private void Update()
@@ -40,6 +41,7 @@ namespace DefaultNamespace
             if (Weapon.Name.Equals(weapon.Name))
             {
                 Weapon.Damage += weapon.Damage;
+                return;
             }
 
             Weapon = weapon;

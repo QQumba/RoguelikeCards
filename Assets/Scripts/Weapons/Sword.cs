@@ -21,8 +21,8 @@ namespace DefaultNamespace
 
         public override void Attack(Enemy enemy)
         {
-            base.Attack(enemy);
-            Damage -= enemy.Health;
+           base.Attack(enemy);
+           
         }
     }
 }

@@ -17,15 +17,13 @@ namespace DefaultNamespace
         public override void Attack(Enemy enemy)
         {
 
-            if(enemy.Top is Enemy enemyTopCard)
-                base.Attack(enemyTopCard);
-            
-            if(enemy.Bottom is Enemy enemyBottomCard)
-                base.Attack(enemyBottomCard);
-            base.Attack(enemy);
-          
-    
+            if (enemy.Top is Enemy enemyTopCard)
+                enemyTopCard.ApplyDamage(Damage);
 
+            if (enemy.Bottom is Enemy enemyBottomCard)
+                enemyBottomCard.ApplyDamage(Damage);
+            base.Attack(enemy);
+            
         }
 
         protected override void PickUp()

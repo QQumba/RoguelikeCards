@@ -7,8 +7,10 @@ namespace DefaultNamespace
     public abstract class Weapon : Card
     {
         public string Name;
+
         public int Damage;
-        
+
+        private int minDamage = 0;
         
         public override bool TryEnter(Hero hero)
         {
@@ -22,19 +24,22 @@ namespace DefaultNamespace
 
         public virtual void Attack(Enemy enemy)
         {
-            Debug.Log("Enemy attached");
-            enemy.ApplyDamage(Damage);
+            var damageBeforeAttack = Damage;
+            
             Damage -= enemy.Health;
-            Debug.Log("Damage chenged");
-            if (Damage < 0)
+            enemy.ApplyDamage(damageBeforeAttack);
+            if (Damage < minDamage)
+                Damage = minDamage;
+            if (Damage == minDamage )
+            {
+                Debug.Log($"Weapon = {Game.Hero.Weapon}");
                 Game.Hero.Weapon = null;
-                
-            if (enemy.Health > 0)
-               Game.Hero.Weapon = null;
-            
-          
-            
+                Debug.Log($"Weapon = {Game.Hero.Weapon}");
+            }
+           // Debug.Log($"Enemy attached{enemy.ApplyDamage(Damage)}");
+            //Debug.Log("Damage chenged");
+           
+
         }
     }
 }
-        

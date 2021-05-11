@@ -12,9 +12,9 @@ namespace DefaultNamespace.Enemies
         }
 
         public override int ApplyDamage(int damage)
-         {
-             return Health / 2;
-         }
+        {
+            return base.ApplyDamage(damage);
+        }
 
         public override void Die()
         {

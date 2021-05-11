@@ -331,6 +331,10 @@ PrefabInstance:
       value: Game
       objectReference: {fileID: 0}
     - target: {fileID: 4341482921455160635, guid: fdbc1d9a9a7ca414ba793bb3939ef4a2, type: 3}
+      propertyPath: Coin
+      value: 
+      objectReference: {fileID: -594916955534345425, guid: 024c2b8ab99b04147b01af37facc8aaf, type: 3}
+    - target: {fileID: 4341482921455160635, guid: fdbc1d9a9a7ca414ba793bb3939ef4a2, type: 3}
       propertyPath: Hero
       value: 
       objectReference: {fileID: 7418549466346606698, guid: e68a0fc00906fe04fbe78e6434079177, type: 3}
