@@ -17,11 +17,12 @@ namespace DefaultNamespace
         
         public int Health => _health;
 
-        public Weapon Weapon { get; private set; }
+        public Weapon Weapon { get; set; }
         
         private void Start()
         {
             _health = _maxHealth;
+            //Weapon = null;
         }
 
         private void Update()
@@ -32,9 +33,15 @@ namespace DefaultNamespace
 
         public void GiveWeapon(Weapon weapon)
         {
+            if (Weapon == null)
+            {
+                Weapon = weapon;
+                return;
+            }
             if (Weapon.Name.Equals(weapon.Name))
             {
                 Weapon.Damage += weapon.Damage;
+                return;
             }
 
             Weapon = weapon;
@@ -42,12 +49,8 @@ namespace DefaultNamespace
         
         public int ApplyDamage(int damage)
         {
-            Debug.Log($"hero health before damage: {_health}");
-            Debug.Log($"applying [{damage}] damage to hero");
-
             var healthBeforeDamage = _health;
             _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
-            Debug.Log($"hero health after damage: {_health}");
             if (_health <= 0)
             {
                 Game.Stop();
