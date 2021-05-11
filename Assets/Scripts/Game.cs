@@ -7,6 +7,7 @@ using DefaultNamespace.Factories;
 using DefaultNamespace.Powerups;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
@@ -16,6 +17,7 @@ namespace DefaultNamespace
         public GameState GameState;
         public Hero Hero;
         public CardGenerator CardGenerator;
+        public int CoinCount = 0;
         
         public int SideSize => GameState.SideSize;
         public Card[] Cards => GameState.Cards;
@@ -31,6 +33,7 @@ namespace DefaultNamespace
         public void Stop()
         {
             Debug.Log("GAME OVER");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);   
         }
         
         public void RemoveCard(Card card)
@@ -303,8 +306,8 @@ namespace DefaultNamespace
                 }
                 
                 GameState.Cards[i] = card;
-                card.Game = this;
-                //card.AssignToGame(this);
+                // card.Game = this;
+                card.AssignToGame(this);
 
                 card.transform.position = this.GetCardPosition(GameState.Cards[i]);
             }

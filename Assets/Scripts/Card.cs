@@ -78,6 +78,7 @@ namespace DefaultNamespace
                 transform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, i);
                 yield return null;
             }
+            transform.localScale = Vector3.one;
         }
 
         protected virtual IEnumerator MoveTo(Vector2 from, Vector2 to)
@@ -89,6 +90,7 @@ namespace DefaultNamespace
                 transform.position = Vector3.Lerp(fromV3, toV3, i);
                 yield return null;
             }
+            transform.position = toV3;
         }
 
         private void Swap()

@@ -90,6 +90,7 @@ namespace DefaultNamespace
             }
 
             IsMoving = false;
+            transform.position = toV3;
         }
     }
 }

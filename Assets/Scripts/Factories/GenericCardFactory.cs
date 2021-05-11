@@ -28,6 +28,7 @@ namespace DefaultNamespace.Factories
             return GetCardOrNull(chance, 5);
         }
 
+        // 0 ... 100  chance < 40
         private Card GetCardOrNull(float chance, float requiredChance)
         {
             if (chance < requiredChance)

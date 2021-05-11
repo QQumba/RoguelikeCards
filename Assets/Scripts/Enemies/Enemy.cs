@@ -1,13 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using TMPro;
+using UnityEngine;
 
 namespace DefaultNamespace.Enemies
 {
     public abstract class Enemy : Card
     {
+        [SerializeField] private TextMeshPro _healthText;
+        
         public int MaxHealth;
         public int Health;
         public string Name;
         public string Description;
+
+        private void Update()
+        {
+            _healthText.text = $"{Health}/{MaxHealth}";
+        }
 
         public override bool TryEnter(Hero hero)
         {
@@ -34,8 +43,7 @@ namespace DefaultNamespace.Enemies
 
         public virtual void Die()
         {
-           
-            Debug.Log($"{Name} died.");
+            //Game.SpawnCoin(this);
         }
     }
 }

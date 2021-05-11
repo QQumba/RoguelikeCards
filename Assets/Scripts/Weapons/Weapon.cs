@@ -1,17 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using DefaultNamespace.Enemies;
+using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
     public abstract class Weapon : Card
     {
+        [SerializeField] private TextMeshPro _attackText;
+        
         public string Name;
 
         public int Damage;
 
         private int minDamage = 0;
-        
+
+        private void Update()
+        {
+                _attackText.text = Damage.ToString();
+        }
+
+
         public override bool TryEnter(Hero hero)
         {
             PickUp();
@@ -36,7 +46,7 @@ namespace DefaultNamespace
                 Game.Hero.Weapon = null;
                 Debug.Log($"Weapon = {Game.Hero.Weapon}");
             }
-           // Debug.Log($"Enemy attached{enemy.ApplyDamage(Damage)}");
+            // Debug.Log($"Enemy attached{enemy.ApplyDamage(Damage)}");
             //Debug.Log("Damage chenged");
            
 

@@ -1,7 +1,4 @@
-﻿using System;
-using DefaultNamespace.Chests;
-using TMPro.EditorUtilities;
-using UnityEngine;
+﻿using DefaultNamespace.Chests;
 
 namespace DefaultNamespace.Factories
 {
