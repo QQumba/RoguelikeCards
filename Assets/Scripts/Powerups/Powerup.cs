@@ -5,8 +5,8 @@
         public override bool TryEnter(Hero hero)
         {
             PickUp();
-            return true;
             Game.TurneCount++;
+            return true;
         }
 
         protected abstract void PickUp();

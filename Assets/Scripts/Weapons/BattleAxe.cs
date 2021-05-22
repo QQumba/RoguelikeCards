@@ -8,11 +8,7 @@ namespace DefaultNamespace
 {
     public class BattleAxe : Weapon
     {
-        private void Start()
-        {
-            Name = "Battle Axe";
-            Damage = 12;
-        }
+       
 
         public override void Attack(Enemy enemy)
         {

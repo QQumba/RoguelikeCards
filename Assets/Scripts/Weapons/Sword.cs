@@ -6,11 +6,7 @@ namespace DefaultNamespace
 {
     public class Sword : Weapon
     {
-        private void Start()
-        {
-            Name = "Sword";
-            Damage = 10;
-        }
+        
         
         protected override void PickUp()
         {

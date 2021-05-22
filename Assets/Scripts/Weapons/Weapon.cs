@@ -25,6 +25,7 @@ namespace DefaultNamespace
         public override bool TryEnter(Hero hero)
         {
             PickUp();
+            Game.TurneCount++;
             return true;
         }
 

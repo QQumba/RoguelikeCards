@@ -25,8 +25,6 @@ namespace DefaultNamespace
                 foreach (var factory in Factories)
                 {
                     var card = factory.GetCard();
-                    if(card is Enemy enemy)
-                       // enemy.Health += 
                     if (card != null)
                     {
                         var instantiatedCard = Instantiate(card, Vector3.zero, Quaternion.identity);

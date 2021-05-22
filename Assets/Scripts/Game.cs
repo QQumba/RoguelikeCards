@@ -21,7 +21,11 @@ namespace DefaultNamespace
         
         public int SideSize => GameState.SideSize;
         public Card[] Cards => GameState.Cards;
-        public int TurneCount { get; set; }
+        public int TurneCount
+        {
+            get { return TurneCount;}
+            set { TurneCount = value; }
+        }
 
     
         
@@ -268,8 +272,18 @@ namespace DefaultNamespace
                 Debug.Log($"Game.GenerateCard -> can't generate card on index: {index}, card on this index already exist.");
                 return;
             }
-            
             var card = CardGenerator.GenerateCard();
+          //  if (card is Enemy enemy)
+          //  {
+          //      enemy.MaxHealth += GameState.TurnCount / 10;
+          //      enemy.Health = enemy.MaxHealth;
+           // }
+
+            //if (card is Weapon weapon)
+           // {
+           //     weapon.Damage += GameState.TurnCount / 10;
+           // }
+            
             Cards[index] = card;
             card.AssignToGame(this);
         }
