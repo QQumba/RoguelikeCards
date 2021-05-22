@@ -11,6 +11,7 @@ namespace DefaultNamespace
     public class GameState : MonoBehaviour
     {
         public int SideSize = 3;
+        public int TurnCount;
         public Card[] Cards { get; private set; }
         
         public List<Enemy> Enemies

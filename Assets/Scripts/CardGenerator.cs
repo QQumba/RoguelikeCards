@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using DefaultNamespace.Enemies;
 using DefaultNamespace.Factories;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
@@ -24,6 +25,8 @@ namespace DefaultNamespace
                 foreach (var factory in Factories)
                 {
                     var card = factory.GetCard();
+                    if(card is Enemy enemy)
+                       // enemy.Health += 
                     if (card != null)
                     {
                         var instantiatedCard = Instantiate(card, Vector3.zero, Quaternion.identity);

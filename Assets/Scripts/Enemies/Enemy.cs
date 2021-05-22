@@ -25,6 +25,7 @@ namespace DefaultNamespace.Enemies
                 var damageApplied = ApplyDamage(hero.Health);
                 hero.ApplyDamage(damageApplied);
                 return true;
+                Game.TurneCount++;
             }
             hero.Weapon.Attack(this);
             return false;

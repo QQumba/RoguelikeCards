@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4341482921455160634
+--- !u!1 &2384305329398005136
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4341482921455160772}
-  - component: {fileID: 4341482921455160635}
+  - component: {fileID: 2384305329398005102}
+  - component: {fileID: 2384305329398005137}
+  - component: {fileID: 2114099895870959764}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -17,13 +18,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4341482921455160772
+--- !u!4 &2384305329398005102
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4341482921455160634}
+  m_GameObject: {fileID: 2384305329398005136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.4138979, y: 0.49514416, z: -7.9035645}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,19 +32,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4341482921455160635
+--- !u!114 &2384305329398005137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4341482921455160634}
+  m_GameObject: {fileID: 2384305329398005136}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ae351a7b5a84a7f88180c573107e276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AllPowerups:
-  - {fileID: 1306424947823327121, guid: 8d39908be16f958449b7279e1a691bc4, type: 3}
-  SideSize: 3
+  GameState: {fileID: 2114099895870959764}
   Hero: {fileID: 7418549466346606698, guid: 2411507f8633e144aa49e24893d674f0, type: 3}
+  CardGenerator: {fileID: 8301366332606650389, guid: 453c888f1506c5a4dbbaf1b7463553d3, type: 3}
+  CoinCount: 0
+  Coin: {fileID: 7486091757874220434, guid: 024c2b8ab99b04147b01af37facc8aaf, type: 3}
+--- !u!114 &2114099895870959764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2384305329398005136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a98adec10428420f87e2c1fd4c2fda09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SideSize: 3

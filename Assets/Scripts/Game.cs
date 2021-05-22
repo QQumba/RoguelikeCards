@@ -17,12 +17,14 @@ namespace DefaultNamespace
         public GameState GameState;
         public Hero Hero;
         public CardGenerator CardGenerator;
-        public int CoinCount = 0;
+        public int CoinCount;
         
         public int SideSize => GameState.SideSize;
         public Card[] Cards => GameState.Cards;
-        public int TurnCount { get; } = 0;
-        public int GoldCount { get; } = 0;
+        public int TurneCount { get; set; }
+
+    
+        
         public Card Coin;
         private void Start()
         {

@@ -6,6 +6,7 @@
         {
             PickUp();
             return true;
+            Game.TurneCount++;
         }
 
         protected abstract void PickUp();
