@@ -27,7 +27,7 @@ namespace DefaultNamespace
                     var card = factory.GetCard();
                     if (card != null)
                     {
-                        var instantiatedCard = Instantiate(card, Vector3.zero, Quaternion.identity);
+                        var instantiatedCard = Instantiate(card, new Vector3(10,10,40) , Quaternion.identity);
                         return instantiatedCard;
                     }
                 }

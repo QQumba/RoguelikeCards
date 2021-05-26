@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DefaultNamespace
 {
-    public class Sword : Weapon
+    public class EpicSword : Weapon
     {
         
         

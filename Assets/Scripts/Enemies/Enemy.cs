@@ -1,6 +1,7 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace DefaultNamespace.Enemies
 {
@@ -20,16 +21,27 @@ namespace DefaultNamespace.Enemies
 
         public override bool TryEnter(Hero hero)
         {
-            if (hero.Weapon is null)
-            {
-                var damageApplied = ApplyDamage(hero.Health);
-                hero.ApplyDamage(damageApplied);
-                Game.TurneCount++;
-                return true;
-            }
+            // if (hero.Weapon is null)
+            // {
+            //     var damageApplied = ApplyDamage(hero.Health);
+            //     hero.ApplyDamage(damageApplied);
+            //     Game.TurnCount++;
+            //     return true;
+            // }
+            // if (hero.Weapon == Hand.GetInstance())
+            // {
+            //     if (hero.Health > Health)
+            //     {
+            //         hero.Weapon.Attack(this);
+            //         return true;
+            //     }
+            // }
+
             hero.Weapon.Attack(this);
             return false;
         }
+
+       
 
         public virtual int ApplyDamage(int damage)
         {
@@ -37,14 +49,15 @@ namespace DefaultNamespace.Enemies
             Health = Mathf.Clamp(Health - damage, 0, MaxHealth);
             if (Health <= 0)
             {
-                Die();
+               
+               Die();
             }
             return healthBeforeDamage - Health;
         }
 
         public virtual void Die()
         {
-            //Game.SpawnCoin(this);
+            Game.SpawnCoin(this);
         }
     }
 }

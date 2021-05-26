@@ -5,7 +5,7 @@
         public override bool TryEnter(Hero hero)
         {
             PickUp();
-            Game.TurneCount++;
+            Game.TurnCount++;
             return true;
         }
 

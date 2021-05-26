@@ -6,7 +6,6 @@ namespace DefaultNamespace.Enemies
     {
         public override void Die()
         {
-            Game.SpawnCoin(this);
             base.Die();
         }
     }

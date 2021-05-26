@@ -4,15 +4,14 @@ using UnityEngine.PlayerLoop;
 
 namespace DefaultNamespace
 {
-    public class CoinCounter : MonoBehaviour
+    public class TurnCounter : MonoBehaviour
     {
-        [SerializeField] private TextMeshPro _CoinCount;
+        [SerializeField] private TextMeshPro _TurnCount;
         public GameState _gameState;
         private void Update()
         {
-            _CoinCount.text = $"{_gameState.CoinCount}";
-          
-       
+            _TurnCount.text = $"{_gameState.TurnCount}";
+            
         }
     }
 }

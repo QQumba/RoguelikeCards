@@ -22,13 +22,14 @@ namespace DefaultNamespace
         private void Start()
         {
             _health = _maxHealth;
-            //Weapon = null;
+            Weapon = Hand.GetInstance();
         }
 
         private void Update()
         {
+             
             _healthUI.text = $"{_health}/{_maxHealth}";
-            _attackUI.text = Weapon == null ? "0" : Weapon.Damage.ToString();
+            _attackUI.text = Weapon == null || Weapon == Hand.GetInstance()? "0" : Weapon.Damage.ToString();
         }
 
         public void GiveWeapon(Weapon weapon)

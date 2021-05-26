@@ -52,8 +52,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Weapons\Sword.cs" />
-     <Compile Include="Assets\Scripts\CoinCounter.cs" />
+     <Compile Include="Assets\Scripts\Weapons\EpicSword.cs" />
      <Compile Include="Assets\Scripts\Powerups\SuspiciousPotion.cs" />
      <Compile Include="Assets\Scripts\Factories\WeaponFactory.cs" />
      <Compile Include="Assets\Scripts\Enemies\EvilPig.cs" />
@@ -66,22 +65,29 @@
      <Compile Include="Assets\Scripts\Game.cs" />
      <Compile Include="Assets\Scripts\Factories\ChestsFactory.cs" />
      <Compile Include="Assets\Scripts\InvalidCardException.cs" />
+     <Compile Include="Assets\Scripts\Weapons\IronSword.cs" />
      <Compile Include="Assets\Scripts\Enemies\Enemy.cs" />
      <Compile Include="Assets\Scripts\Card.cs" />
      <Compile Include="Assets\Scripts\Extensions\GameNavigation.cs" />
      <Compile Include="Assets\Scripts\Powerups\HealPotion.cs" />
      <Compile Include="Assets\Scripts\Powerups\TransformationPotion.cs" />
+     <Compile Include="Assets\Scripts\TurnCounter.cs" />
      <Compile Include="Assets\Scripts\Enemies\MonkFrog.cs" />
+     <Compile Include="Assets\Scripts\Enemies\KingKong.cs" />
+     <Compile Include="Assets\Scripts\Weapons\IronAxe.cs" />
+     <Compile Include="Assets\Scripts\CardLimiter.cs" />
      <Compile Include="Assets\Scripts\Powerups\Powerup.cs" />
      <Compile Include="Assets\Scripts\Weapons\BattleAxe.cs" />
      <Compile Include="Assets\Scripts\Factories\EnemyFactory.cs" />
      <Compile Include="Assets\Scripts\Chests\TreasureChest.cs" />
      <Compile Include="Assets\Scripts\Hero.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Hand.cs" />
      <Compile Include="Assets\Scripts\Extensions\CardExtensions.cs" />
      <Compile Include="Assets\Scripts\Chests\Chest.cs" />
      <Compile Include="Assets\Scripts\Factories\CardFactory.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
      <Compile Include="Assets\Scripts\GamePresenter.cs" />
+     <Compile Include="Assets\Scripts\CoinCounter.cs" />
      <Compile Include="Assets\Scripts\Factories\PowerupFactory.cs" />
      <Compile Include="Assets\Scripts\GameState.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

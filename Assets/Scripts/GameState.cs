@@ -4,16 +4,19 @@ using DefaultNamespace.Chests;
 using DefaultNamespace.Enemies;
 using DefaultNamespace.Factories;
 using DefaultNamespace.Powerups;
+using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace
 {
     public class GameState : MonoBehaviour
     {
+    
         public int SideSize = 3;
         public int TurnCount;
+        public int CoinCount;
         public Card[] Cards { get; private set; }
-        
+       
         public List<Enemy> Enemies
         {
             get

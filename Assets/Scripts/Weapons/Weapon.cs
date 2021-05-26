@@ -25,7 +25,7 @@ namespace DefaultNamespace
         public override bool TryEnter(Hero hero)
         {
             PickUp();
-            Game.TurneCount++;
+            Game.TurnCount++;
             return true;
         }
 
@@ -35,6 +35,7 @@ namespace DefaultNamespace
 
         public virtual void Attack(Enemy enemy)
         {
+            
             var damageBeforeAttack = Damage;
             
             Damage -= enemy.Health;
@@ -43,12 +44,8 @@ namespace DefaultNamespace
                 Damage = minDamage;
             if (Damage == minDamage )
             {
-                Debug.Log($"Weapon = {Game.Hero.Weapon}");
-                Game.Hero.Weapon = null;
-                Debug.Log($"Weapon = {Game.Hero.Weapon}");
+                Game.Hero.Weapon = Hand.GetInstance();
             }
-            // Debug.Log($"Enemy attached{enemy.ApplyDamage(Damage)}");
-            //Debug.Log("Damage chenged");
            
 
         }

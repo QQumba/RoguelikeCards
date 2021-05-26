@@ -17,16 +17,19 @@ namespace DefaultNamespace
         public GameState GameState;
         public Hero Hero;
         public CardGenerator CardGenerator;
-        public int CoinCount;
-        
+
         public int SideSize => GameState.SideSize;
         public Card[] Cards => GameState.Cards;
-        public int TurneCount
+        public int TurnCount
         {
-            get { return TurneCount;}
-            set { TurneCount = value; }
+            get { return GameState.TurnCount;}
+            set { GameState.TurnCount = value; }
         }
-
+        public int CoinCount
+        {
+            get { return GameState.CoinCount; }
+            set { GameState.CoinCount = value; }
+        }
     
         
         public Card Coin;
@@ -265,24 +268,22 @@ namespace DefaultNamespace
             UpdateCardsPosition();
         }
 
+       
         public void GenerateCard(int index)
         {
+            CardLimiter cardLimiter = new CardLimiter(this);
             if (Cards[index] != null)
             {
                 Debug.Log($"Game.GenerateCard -> can't generate card on index: {index}, card on this index already exist.");
                 return;
             }
             var card = CardGenerator.GenerateCard();
-          //  if (card is Enemy enemy)
-          //  {
-          //      enemy.MaxHealth += GameState.TurnCount / 10;
-          //      enemy.Health = enemy.MaxHealth;
-           // }
-
-            //if (card is Weapon weapon)
-           // {
-           //     weapon.Damage += GameState.TurnCount / 10;
-           // }
+            card = cardLimiter.LimitCard(card);
+            if(card == null)
+            {
+                GenerateCard(index);
+                return;
+            }
             
             Cards[index] = card;
             card.AssignToGame(this);
@@ -322,7 +323,7 @@ namespace DefaultNamespace
                 }
                 
                 GameState.Cards[i] = card;
-                // card.Game = this;
+               
                 card.AssignToGame(this);
 
                 card.transform.position = this.GetCardPosition(GameState.Cards[i]);

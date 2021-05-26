@@ -154,9 +154,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550f662074644c2a8db04ae6681c9fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Game: {fileID: 2384305329398005137, guid: e3d4ee75227598d489ed4eda09bedb34, type: 3}
-  Powerups:
+  Game: {fileID: 6329343866153002447, guid: 8a7b19d7a4bee0a4e92050046b140a68, type: 3}
+  Cards:
+  - {fileID: 7486091757874220434, guid: 024c2b8ab99b04147b01af37facc8aaf, type: 3}
+  - {fileID: 2745166855810635948, guid: 9032c15353f5e0847b797b2a05b367ce, type: 3}
+  - {fileID: 6883468053146511823, guid: 7f159e1a6f7ed7c47a209ef11c8d36ee, type: 3}
+  - {fileID: 5664508111587820365, guid: efd048f195671fa419e4e038d8948332, type: 3}
+  - {fileID: 7018618588972878684, guid: 83959ee5842a3804fb3ae261ee82c146, type: 3}
   - {fileID: 1306424947823327121, guid: 8d39908be16f958449b7279e1a691bc4, type: 3}
+  - {fileID: 1306424947823327121, guid: 8d39908be16f958449b7279e1a691bc4, type: 3}
+  - {fileID: 6306942878792874144}
+  - {fileID: 6672391088236684690, guid: dfcd33336a8ec3f4b97de1594645e4c7, type: 3}
+  - {fileID: 318306770839494774, guid: b6737ad708e9eb3499f6571010981ee2, type: 3}
+  - {fileID: 3749779968198316293, guid: c8a8bfb8f57e8614884d4c11b23eefe7, type: 3}
 --- !u!1 &7383386728715113896
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,8 +235,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1634176369
-  m_SortingLayer: 0
+  m_SortingLayerID: -1300810137
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2041f97ffad414045a8488e883263bd8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
