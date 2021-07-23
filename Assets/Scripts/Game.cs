@@ -1,316 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design.Serialization;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using DefaultNamespace.Enemies;
-using DefaultNamespace.Factories;
-using DefaultNamespace.Powerups;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.SceneManagement;
-using Random = UnityEngine.Random;
+using UnityEngine.Events;
 
-namespace DefaultNamespace
+namespace DefaultNamespace.Cards
 {
     public class Game : MonoBehaviour
     {
-        public GameState GameState;
-        public Hero Hero;
-        public CardGenerator CardGenerator;
-        public int CoinCount = 0;
-        
-        public int SideSize => GameState.SideSize;
-        public Card[] Cards => GameState.Cards;
-        public int TurnCount { get; } = 0;
-        public int GoldCount { get; } = 0;
-        public Card Coin;
+        [SerializeField] private GameField gameField;
+        [SerializeField] private ValueChangedEvent turnCompleted;
+
+        private Queue<Card> _removedCardPool;
+        private int _cardToRemove;
+
+        private CardAnimator _animator;
+
+        private int _turnCount;
+
         private void Start()
         {
-            InitializeGameField();
-            Debug.Log("Game initialized");
+            _animator = CardAnimator.GetInstance();
+            _removedCardPool = new Queue<Card>();
         }
 
-        public void Stop()
+        public Hero Hero { get; set; }
+
+        private void UpdateCards()
         {
-            Debug.Log("GAME OVER");
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);   
-        }
-        
-        public void RemoveCard(Card card)
-        {
-            if (card == Hero)
-            {
-                Debug.Log("Game.RemoveCard -> trying to remove hero.");
-                return;
-            }
             
-            var index = this.GetGameCardIndex(card);
-            Cards[index] = null;
-            
-            card.Remove();
         }
 
-        public void SwapCards(Card from, Card to)
+        private void UpdateGameField()
         {
-            var fromIndex = this.GetGameCardIndex(from);
-            var toIndex = this.GetGameCardIndex(to);
-            
-            Cards[fromIndex] = to;
-            Cards[toIndex] = from;
         }
 
-        public void MoveCard(int fromIndex, int toIndex)
+        private void Animate()
         {
-            if (!this.IsCardIndexInbound(fromIndex))
-            {
-                return;
-            }
-            if (Cards[toIndex] != null)
-            {
-                Debug.Log($"Game.MoveCard -> can't move card from index [{fromIndex}] to index [{toIndex}]. Trying to move card to existing card.");
-                return;
-            }
-
-            var card = Cards[fromIndex];
-            
-            Cards[toIndex] = card;
-            Cards[fromIndex] = null;
-            card.Move(this.GetCardPosition(fromIndex), this.GetCardPosition(toIndex));   
-            // UpdateCardsPosition();
         }
 
-        public void ShiftCards(int index)
+        public void CompleteTurn()
         {
-            var counts = new[]
+            foreach (var card in gameField.Cards)
             {
-                GetTopCardsCount(index),
-                GetRightCardsCount(index),
-                GetBottomCardsCount(index),
-                GetLeftCardsCount(index)
-            };
-
-            if (counts[0] == counts.Max())
-            {
-                Debug.Log($"Max card on top: {counts.Max()}");
-                ShiftBottom(index);
-                return;
-            }
-            if (counts[1] == counts.Max())
-            {
-                Debug.Log($"Max card on right: {counts.Max()}");
-                ShiftLeft(index);
-                return;
-            }
-            if (counts[2] == counts.Max())
-            {
-                Debug.Log($"Max card on bottom: {counts.Max()}");
-                ShiftTop(index);
-                return;
-            }
-            if (counts[3] == counts.Max())
-            {
-                Debug.Log($"Max card on left: {counts.Max()}");
-                ShiftRight(index);
-                return;
-            }
-        }
-
-        public int GetTopCardsCount(int index)
-        {
-            var edgeIndex = SideSize * (SideSize - 1) + (index % SideSize);
-            for (int i = index; i <= edgeIndex; i += SideSize)
-            {
-                if (Cards[i] == Hero)
-                {
-                    return 0;
-                }
+                card.TurnUpdate();
+                card.UpdateState();
             }
 
-            return (edgeIndex - index) / SideSize;
-        }
-
-        public int GetBottomCardsCount(int index)
-        {
-            var edgeIndex = index % SideSize;
-            for (int i = index; i >= edgeIndex; i -= SideSize)
+            for (int i = 0; i < _removedCardPool.Count - _cardToRemove; i++)
             {
-                if (Cards[i] == Hero)
-                {
-                    return 0;
-                }
+                var card = _removedCardPool.Dequeue();
+                Destroy(card.gameObject);
             }
 
-            return (index - edgeIndex) / SideSize;
-        }
-
-        public int GetRightCardsCount(int index)
-        {
-            var edgeIndex = index + SideSize - 1 - index % SideSize;
-            for (int i = index; i <= edgeIndex; i++)
-            {
-                if (Cards[i] == Hero)
-                {
-                    return 0;
-                }
-            }
-
-            return edgeIndex - index;
-        }
-
-        public int GetLeftCardsCount(int index)
-        {
-            var edgeIndex = index / SideSize * SideSize;
-            for (int i = index; i >= edgeIndex; i--)
-            {
-                if (Cards[i] == Hero)
-                {
-                    return 0;
-                }
-            }
-
-            return index - edgeIndex;
-        }
-        
-        public void ShiftTop(int index)
-        {
-            var edgeIndex = index % SideSize;
-            for (int i = index; i >= edgeIndex; i -= SideSize)
-            {
-                if (i == edgeIndex)
-                {
-                    GenerateCard(i);
-                    return;
-                }
-                MoveCard(i - SideSize, i);
-            }
-        }
-        
-        public void ShiftBottom(int index)
-        {
-            var edgeIndex = SideSize * (SideSize - 1) + (index % SideSize);
-            for (int i = index; i <= edgeIndex; i += SideSize)
-            {
-                if (i == edgeIndex)
-                {
-                    GenerateCard(i);
-                    return;
-                }
-                MoveCard(i + SideSize, i);
-            }
-        }
-        
-        public void ShiftRight(int index)
-        {
-            var edgeIndex = index / SideSize * SideSize;
-            for (int i = index; i >= edgeIndex; i--)
-            {
-                if (i == edgeIndex)
-                {
-                    GenerateCard(i);
-                    return;
-                }
-                MoveCard(i - 1, i);
-            }
-        }
-        
-        // 6 7 8 
-        // 3 4 5 
-        // 0 1 2 
-        
-        public void ShiftLeft(int index)
-        {
-            var edgeIndex = index + SideSize - 1 - index % SideSize;
-            for (int i = index; i <= edgeIndex; i++)
-            {
-                if (i == edgeIndex)
-                {
-                    GenerateCard(i);
-                    return;
-                }
-                MoveCard(i + 1, i);
-            }
+            _turnCount++;
+            _cardToRemove = 0;
+            turnCompleted.Invoke(_turnCount);
         }
 
         public void MoveHero(Card card)
         {
-            int heroIndex = this.GetGameCardIndex(Hero);
-            int cardIndex = this.GetGameCardIndex(card);
-
-            RemoveCard(card);
-            Cards[cardIndex] = Hero;
-            Cards[heroIndex] = null;
+            _removedCardPool.Enqueue(card);
+            _cardToRemove++;
             
-            // GenerateCard(heroIndex);
-            ShiftCards(heroIndex);
-            Hero.Move(this.GetCardPosition(heroIndex), this.GetCardPosition(cardIndex));
+            _animator.Move(Hero, card);
+            
+            gameField.MoveCard(Hero, card);
         }
 
-        public void ReplaceCard(Card source, Card destination)
+        public void ReplaceCard(Card card)
         {
-            var destinationIndex = this.GetGameCardIndex(destination);
-
-            var card = Instantiate(source, Vector3.zero, Quaternion.identity);
-            RemoveCard(destination);
-            
-            card.Game = this;
-            Cards[destinationIndex] = card;
-            
-            
-            UpdateCardsPosition();
-        }
-
-        public void GenerateCard(int index)
-        {
-            if (Cards[index] != null)
-            {
-                Debug.Log($"Game.GenerateCard -> can't generate card on index: {index}, card on this index already exist.");
-                return;
-            }
-            
-            var card = CardGenerator.GenerateCard();
-            Cards[index] = card;
-            card.AssignToGame(this);
-        }
-
-        public void UpdateCardsPosition()
-        {
-            foreach (var card in Cards)
-            {
-                if (card == null)
-                {
-                    continue;
-                }
-
-                card.transform.position = this.GetCardPosition(card);
-            }
-        }
-
-        public void SpawnCoin(Card card)
-        {
-            ReplaceCard(Coin, card );
-        }
-        private void InitializeGameField()
-        {
-            var playerPosition = Random.Range(0, SideSize * SideSize);
-            for (int i = 0; i < SideSize * SideSize; i++)
-            {
-                Card card;
-                if (i == playerPosition)
-                {
-                    card = Instantiate(Hero, Vector3.zero, Quaternion.identity);
-                    Hero = (Hero) card;
-                }
-                else
-                {
-                    card = CardGenerator.GenerateCard();
-                }
-                
-                GameState.Cards[i] = card;
-                // card.Game = this;
-                card.AssignToGame(this);
-
-                card.transform.position = this.GetCardPosition(GameState.Cards[i]);
-            }
+            _removedCardPool.Enqueue(card);
+            _cardToRemove++;
+            gameField.ReplaceCard(card);
         }
     }
+
+    [Serializable]
+    public class ValueChangedEvent : UnityEvent<int> { }
 }

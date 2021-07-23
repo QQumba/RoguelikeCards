@@ -683,11 +683,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7418549466346606703}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b97ecfee61c4b34a63d38d0cc078ed7, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d50471f699142adb1a4fd8c30dc9118, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Game: {fileID: 4341482921455160635, guid: fdbc1d9a9a7ca414ba793bb3939ef4a2, type: 3}
-  _maxHealth: 10
-  _health: 10
-  _healthUI: {fileID: 1607804157103220186}
-  _attackUI: {fileID: 6327815046609599064}
+  weight: {fileID: 0}
+  emptyCard: {fileID: 674991671077569547, guid: 057d38c05a1b5bc4ba50570f274de30d,
+    type: 3}
+  health: 10
+  maxHealth: 10
