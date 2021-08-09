@@ -176,11 +176,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1306424947823327118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b07dc63a32c47f9bf11ddf598bef278, type: 3}
+  m_Script: {fileID: 11500000, guid: f7b5e96025284f08b84996b6bef47e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Game: {fileID: 4341482921455160635, guid: fdbc1d9a9a7ca414ba793bb3939ef4a2, type: 3}
-  HealingPower: 3
+  content: {fileID: 1306424947506266098}
 --- !u!61 &785708812
 BoxCollider2D:
   m_ObjectHideFlags: 0
