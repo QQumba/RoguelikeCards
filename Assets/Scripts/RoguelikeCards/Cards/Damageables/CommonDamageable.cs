@@ -26,7 +26,7 @@ namespace RoguelikeCards.Cards.Damageables
         {
             DamageApplied += e =>
             {
-                damageAppliedEvent.Invoke(e.Damage);
+                damageAppliedEvent.Invoke(e.Damage, Card);
                 healthChangedEvent.Invoke(health, maxHealth);
             };
 
@@ -35,17 +35,13 @@ namespace RoguelikeCards.Cards.Damageables
                 healingAppliedEvent.Invoke(e.Heal);
                 healthChangedEvent.Invoke(health, maxHealth);
             };
+            healthChangedEvent.Invoke(health, maxHealth);
         }
 
         public void ApplyDamage(int damage)
         {
             health = Mathf.Clamp(health - damage, 0, maxHealth);
             DamageApplied?.Invoke(new DamageAppliedEventArgs(damage, Card));
-            if (health <= 0)
-            {
-                // TODO rework destroy/drop system
-                Card.Destroy();
-            }
         }
 
         public void ApplyHealing(int heal)
@@ -53,7 +49,7 @@ namespace RoguelikeCards.Cards.Damageables
             health = Mathf.Clamp(health + heal, 0, maxHealth);
             HealingApplied?.Invoke(new HealingAppliedEventArgs(heal));
         }
-        
+
         public override void Accept(ICardComponentVisitor visitor)
         {
             visitor.Visit(this);

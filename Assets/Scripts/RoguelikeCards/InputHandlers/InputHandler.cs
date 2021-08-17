@@ -12,6 +12,7 @@ namespace RoguelikeCards.InputHandlers
 
         public InputHandler(Camera mainCamera, CardAnimator animator)
         {
+            Debug.Log("Create instance of input handler");
             _mainCamera = mainCamera;
             _animator = animator;
         }

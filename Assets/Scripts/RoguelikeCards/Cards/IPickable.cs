@@ -5,7 +5,7 @@ namespace RoguelikeCards.Cards
 {
     public interface IPickable
     {
-        event EventHandler<CardEventArgs> PickedUp;
+        event Action<CardEventArgs> PickedUp;
         void PickUp();
     }
 }

@@ -7,9 +7,9 @@ namespace RoguelikeCards.Presenters
     {
         [SerializeField] private TextMeshPro text;
 
-        public void UpdateValue(int value)
+        public void UpdateValue(string value)
         {
-            text.text = value.ToString();
+            text.text = value;
         }
     }
 }

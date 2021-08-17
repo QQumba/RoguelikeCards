@@ -1,5 +1,4 @@
 ﻿using System;
-using RoguelikeCards.Heroes;
 using RoguelikeCards.RCEventArgs;
 using RoguelikeCards.UnityEvents;
 using UnityEngine;
@@ -62,7 +61,7 @@ namespace RoguelikeCards.Cards
                 Die();
                 return;
             }
-            damageApplied.Invoke((int) damage);
+            damageApplied.Invoke((int) damage, this);
         }
 
         public void ApplyHealing(int heal)
@@ -76,25 +75,7 @@ namespace RoguelikeCards.Cards
         public void Die()
         {
             Died?.Invoke(this);
-            Destroy();
         }
 
-        public override void TurnUpdate()
-        {
-        }
-
-        protected override void AcceptHero(ICardComponentVisitor cardComponentVisitor)
-        {
-            cardComponentVisitor.Visit(this as IEnemy);
-        }
-    }
-
-    /// <summary>
-    /// takes current health and max health as 1st and 2nd parameters
-    /// </summary>
-
-    [Serializable]
-    public class HealingAppliedEvent : UnityEvent<int>
-    {
     }
 }

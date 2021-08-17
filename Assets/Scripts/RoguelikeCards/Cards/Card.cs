@@ -5,52 +5,53 @@ using UnityEngine;
 
 namespace RoguelikeCards.Cards
 {
-    public abstract class Card : MonoBehaviour
+    public class Card : MonoBehaviour
     {
-        [SerializeField] private CardContent content;
+        [SerializeField] private Sprite defaultSprite;
+        [SerializeField] private Sprite highlighted;
 
-        public CardContent Content => content;
-        protected Game Game { get; set; }
+        private SpriteRenderer _renderer;
 
-        public event EventHandler<CardEventArgs> Destroyed;
-        public event EventHandler<CardEventArgs> Selected;
+        public event Action<CardEventArgs> Destroyed;
+        public event Action<CardEventArgs> Entered;
+
+        public CardContent Content { get; set; }
+        public GameFieldNavigator Navigator { get; set; }
 
         private void Start()
         {
-            Instantiate(content, transform);
+            _renderer = GetComponent<SpriteRenderer>();
+        }
+
+        private void OnMouseEnter()
+        {
+            _renderer.sprite = highlighted;
+        }
+
+        private void OnMouseExit()
+        {
+            _renderer.sprite = defaultSprite;
         }
 
         public void Accept(ICardComponentVisitor visitor)
         {
-            foreach (var visitable in content.CardComponents)
+            foreach (var visitable in Content.CardComponents)
             {
                 visitable.Accept(visitor);
             }
-            Selected?.Invoke(this, this);
-            AcceptHero(visitor);
-        }
-
-        protected virtual void AcceptHero(ICardComponentVisitor cardComponentVisitor) { }
-
-        public Card GetInstance(Game game)
-        {
-            return GetInstanceOf(this, game);
-        }
-
-        private Card GetInstanceOf(Card card, Game game)
-        {
-            var instance = Instantiate(card, transform.position, Quaternion.identity);
-
-            instance.transform.localScale = Vector3.zero;
-            instance.Game = game;
-            return instance;
         }
 
         public void Destroy()
         {
-            Destroyed?.Invoke(this,this);
+            var oldContent = Content;
+            Content = oldContent.Loot.GetInstance(this);
+            oldContent.Hide();
+            Destroyed?.Invoke(this);
         }
 
-        public virtual void TurnUpdate() { }
+        public void Accept()
+        {
+            Entered?.Invoke(this);
+        } 
     }
 }

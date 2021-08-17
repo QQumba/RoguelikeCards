@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using RoguelikeCards.Cards;
 using RoguelikeCards.EventHandlers;
+using RoguelikeCards.Extensions;
 using RoguelikeCards.Heroes;
 using RoguelikeCards.UnityEvents;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace RoguelikeCards
 {
@@ -17,13 +16,13 @@ namespace RoguelikeCards
 
         private Queue<Card> _removedCardPool;
         private int _cardToRemove;
-        private CardEventListener _cardEventListener;
+        private CardComponentEventListener _eventListener;
 
         private int _turnCount;
 
         private void Awake()
         {
-            _cardEventListener = new CardEventListener(this, animator);
+            _eventListener = new CardComponentEventListener(animator);
         }
 
         private void Start()
@@ -33,12 +32,12 @@ namespace RoguelikeCards
 
         private void OnEnable()
         {
-            gameField.CardCreated += OnCardCreated;
+            gameField.CardSpawned += OnCardSpawned;
         }
 
         private void OnDisable()
         {
-            gameField.CardCreated -= OnCardCreated;
+            gameField.CardSpawned -= OnCardSpawned;
         }
 
         public Hero Hero { get; set; }
@@ -46,17 +45,19 @@ namespace RoguelikeCards
         public void CompleteTurn()
         {
             foreach (var card in gameField.Cards)
-            {
-                card.TurnUpdate();
+            { 
+                card.Content?.TurnUpdateable?.Update();
             }
+
+            _turnCount++;
             turnCompleted.Invoke(_turnCount.ToString());
             RemoveCards();
         }
 
         public void MoveHero(Card card)
         {
-            animator.Move(Hero, card);
-            gameField.MoveCard(Hero, card);
+            animator.Move(Hero.Card, card);
+            gameField.MoveCard(Hero.Card, card);
         }
 
         public void ReplaceCard(Card card)
@@ -81,10 +82,32 @@ namespace RoguelikeCards
             _cardToRemove = 0;
         }
 
-        private void OnCardCreated(Card card)
+        private void OnCardSpawned(Card card)
         {
             animator.Grow(card);
-            _cardEventListener.Subscribe(card);
+
+            foreach (var component in card.Content.CardComponents)
+            {
+                // TODO: rework hero assigning
+                if (component is Hero hero)
+                {
+                    Hero = hero;
+                }
+                component.Accept(_eventListener);
+            }
+            
+            card.Entered += e =>
+            {
+                animator.Move(Hero.Card, e.Card);
+                var index = gameField.Cards.GetCardIndex(Hero.Card);
+                gameField.ReplaceCard(index);
+                gameField.MoveCard(Hero.Card, e.Card);
+            };
+            
+            card.Destroyed += e =>
+            {
+                e.Card.Accept(_eventListener);    
+            };
         }
     }
 }

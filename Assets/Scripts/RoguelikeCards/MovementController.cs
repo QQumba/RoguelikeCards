@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using RoguelikeCards.Cards;
+using RoguelikeCards.Extensions;
 using RoguelikeCards.Heroes;
 using RoguelikeCards.InputHandlers;
 using RoguelikeCards.RCEventArgs;
@@ -18,13 +19,17 @@ namespace RoguelikeCards
         private Queue<Card> _turnQueue;
         private Hero _hero;
         private InputHandler _inputHandler;
-        
-        private void Start()
+
+        private void Awake()
         {
-            _hero = field.GetCards<Hero>().Single();
             _inputHandler = new InputHandler(mainCamera, animator);
             _inputHandler.CardClicked += OnCardClicked;
             _turnQueue = new Queue<Card>();
+        }
+
+        private void Start()
+        {
+            _hero = field.GetCardComponents<Hero>().Single();
         }
 
         private void OnEnable()
@@ -63,7 +68,7 @@ namespace RoguelikeCards
             // TODO issue: allow player to move on card after moved on other spot            
             if (_turnQueue.Count == 0)
             {
-                if (field.IsCardsAdjacent(_hero, e.Card))
+                if (field.Cards.IsCardsAdjacent(_hero.Card, e.Card))
                 {
                     _turnQueue.Enqueue(e.Card);
                     return;
@@ -73,7 +78,7 @@ namespace RoguelikeCards
             if (_turnQueue.Count == 1)
             {
                 var enqueuedCard = _turnQueue.Peek(); 
-                if (enqueuedCard != e.Card && field.IsCardsAdjacent(enqueuedCard, e.Card))
+                if (enqueuedCard != e.Card && field.Cards.IsCardsAdjacent(enqueuedCard, e.Card))
                 {
                     _turnQueue.Enqueue(e.Card);
                 }

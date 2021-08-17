@@ -14,6 +14,17 @@ namespace RoguelikeCards.Cards.Enemies
         
         public event Action<CardEventArgs> Died;
 
+        private void Start()
+        {
+            Damageable.DamageApplied += e =>
+            {
+                if (_damageable.Health <= 0)
+                {
+                    Die();
+                }
+            };
+        }
+
         public void Die()
         {
             Died?.Invoke(Card);

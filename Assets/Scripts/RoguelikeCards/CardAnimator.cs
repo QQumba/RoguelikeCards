@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections;
 using RoguelikeCards.Cards;
+using RoguelikeCards.EventHandlers;
+using TMPro;
+using UnityEditor.U2D;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace RoguelikeCards
 {
     public class CardAnimator : MonoBehaviour
     {
+        [SerializeField] private SwordSlash slash;
+        [SerializeField] private int animationSpeedMultiplier = 1;
         [SerializeField] private AnimationCurve pulseInCurve;
 
         private static CardAnimator _instance;
@@ -14,7 +20,7 @@ namespace RoguelikeCards
 
         public bool IsAnimating => _queue.HasActiveAnimations;
 
-        public event EventHandler AnimationCompleted;
+        public event Action AnimationCompleted;
 
         private void Awake()
         {
@@ -26,14 +32,17 @@ namespace RoguelikeCards
 
         private void Start()
         {
-            _queue.QueueEmptied += () => AnimationCompleted?.Invoke(this, EventArgs.Empty);
+            _queue.QueueEmptied += () => AnimationCompleted?.Invoke();
         }
 
+        /// <summary>
+        /// Always return null
+        /// </summary>
+        /// <returns></returns>
         [Obsolete]
         public static CardAnimator GetInstance()
         {
             return null;
-            return _instance;
         }
 
         public void Grow(Card card)
@@ -48,7 +57,8 @@ namespace RoguelikeCards
 
         public void Rotate(Card card)
         {
-            StartCoroutine(RotateCard(card));
+            // TODO: deal with strange coroutine call
+            StartCoroutine(Rotate(card, 0, 90));
         }
 
         public void Move(Card from, Card to)
@@ -58,13 +68,14 @@ namespace RoguelikeCards
 
         public void PulseIn(Card card)
         {
+            slash.Play(card);
             StartCoroutine(PulseIn(card.transform));
         }
 
         private IEnumerator Grow(Transform t)
         {
             _queue.Enqueue();
-            for (float i = 0; i < 1; i += Time.deltaTime * 4)
+            for (float i = 0; i < 1; i += Time.deltaTime * 4 * animationSpeedMultiplier)
             {
                 t.localScale = Vector3.Lerp(Vector3.zero, Vector3.one, i);
                 yield return null;
@@ -78,7 +89,7 @@ namespace RoguelikeCards
         {
             _queue.Enqueue();
             var scale = t.localScale;
-            for (float i = 0; i < 1; i += Time.deltaTime * 4)
+            for (float i = 0; i < 1; i += Time.deltaTime * 4 * animationSpeedMultiplier)
             {
                 t.localScale = Vector3.Lerp(scale, Vector3.zero, i);
                 yield return null;
@@ -88,24 +99,38 @@ namespace RoguelikeCards
             _queue.Dequeue();
         }
 
-        private IEnumerator RotateCard(Card card)
-        {
-            _queue.Enqueue();
-            var t = card.transform;
-            for (float i = 0; i < 1; i += Time.deltaTime * 2)
-            {
-                card.Content.gameObject.SetActive(true);
-                if (card.transform.rotation.eulerAngles.y >= 90 && card.transform.rotation.eulerAngles.y <= 270)
-                {
-                    card.Content.gameObject.SetActive(false);
-                }
 
-                t.eulerAngles = new Vector3(0, Mathf.Lerp(0, 360, i), 0);
+        // rotate card on: 0 -> 90 (90), 90 -> 270 (180), 270 -> 360 (90)
+        // TODO: udolit' kostil'
+        private IEnumerator Rotate(Card card, int fromAngle, int toAngle)
+        {
+            var t = card.transform;
+            
+            _queue.Enqueue();
+            for (float i = 0; i < 1; i += Time.deltaTime * 2 * animationSpeedMultiplier * 3)
+            {
+                t.eulerAngles = new Vector3(0, Mathf.Lerp(fromAngle, toAngle, i), 0);
                 yield return null;
             }
 
-            t.rotation = Quaternion.identity;
-            card.Content.gameObject.SetActive(true);
+            var angleDifference = toAngle - fromAngle;
+            
+            if (toAngle == 360)
+            {
+
+            }
+            else if (angleDifference == 90)
+            {
+                card.Destroy();
+                card.Content.Hide();
+                StartCoroutine(Rotate(card, toAngle, toAngle + 180));
+            }
+            else if (angleDifference == 180)
+            {
+                card.Content.Show();
+                StartCoroutine(Rotate(card, toAngle, toAngle + 90));
+            }
+
             _queue.Dequeue();
         }
 
@@ -114,7 +139,7 @@ namespace RoguelikeCards
             _queue.Enqueue();
             var fromPosition = from.position;
             var toPosition = to.position;
-            for (float i = 0; i < 1; i += Time.deltaTime * 4)
+            for (float i = 0; i < 1; i += Time.deltaTime * 4 * animationSpeedMultiplier)
             {
                 from.position = Vector3.Lerp(fromPosition, toPosition, i);
                 yield return null;
@@ -127,7 +152,7 @@ namespace RoguelikeCards
         private IEnumerator PulseIn(Transform t)
         {
             _queue.Enqueue();
-            for (float i = 0; i < 1; i += Time.deltaTime * 4)
+            for (float i = 0; i < 1; i += Time.deltaTime * 4 * animationSpeedMultiplier)
             {
                 var scale = pulseInCurve.Evaluate(i);
                 t.localScale = new Vector3(scale, scale, scale);

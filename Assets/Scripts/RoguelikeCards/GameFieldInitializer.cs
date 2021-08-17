@@ -5,38 +5,39 @@ using Random = UnityEngine.Random;
 
 namespace RoguelikeCards
 {
+    [RequireComponent(typeof(CardSpawner))]
     public class GameFieldInitializer : MonoBehaviour
     {
-        [SerializeField] private CardGenerator generator;
+        private CardSpawner _spawner;
 
-        public event Action<Card> CardCreated;
+        public event Action<Card> CardSpawned;
 
-        public void InitializeGameField(Card[] cards, int sideSize)
+        private void Awake()
         {
+            _spawner = GetComponent<CardSpawner>();
+        }
+
+        /// <summary>
+        /// Initialize square game field
+        /// </summary>
+        /// <param name="cards"></param>
+        /// <param name="sideSize"></param>
+        public void InitializeGameField(Card[] cards)
+        {
+            var sideSize = (int) Mathf.Sqrt(cards.Length);
+            if (sideSize * sideSize != cards.Length)
+                throw new ArgumentException($"Square root of {nameof(cards)}.Lenght should be an integer");
+
             var heroIndex = Random.Range(0, cards.Length);
 
             for (int i = 0; i < cards.Length; i++)
             {
-                var card = i == heroIndex ? generator.GenerateHero() : generator.GenerateCard();
-                CardCreated?.Invoke(card);
-                card.transform.position = new Vector3(i % sideSize, i / sideSize, 0);
-                cards[i] = card;
-            }
-        }
-
-        public void UpdateGameField(Card[] cards)
-        {
-            for (int i = 0; i < cards.Length; i++)
-            {
-                if (cards[i] == null)
-                {
-                    var card = generator.GenerateCard();
-                    CardCreated?.Invoke(card);
-                    card.transform.position = new Vector3(i % (int) Mathf.Sqrt(cards.Length),
-                        i / (int) Mathf.Sqrt(cards.Length), 0);
-                    cards[i] = card;
-                    // card.UpdateState();
-                }
+                // (i % sideSize) = "x" coord on game field
+                // (i / sideSize) = "y" coord on game field
+                var position = new Vector2(i % sideSize, (int) (i / sideSize));
+                var card = i == heroIndex ? _spawner.SpawnHero(position) : _spawner.SpawnCard(position);
+                CardSpawned?.Invoke(card);
+                cards[i] = card;    
             }
         }
     }

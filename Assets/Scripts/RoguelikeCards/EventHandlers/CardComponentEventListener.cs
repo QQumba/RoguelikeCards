@@ -16,7 +16,7 @@ namespace RoguelikeCards.EventHandlers
         {
             enemy.Died += e =>
             {
-                _animator.Shrink(e.Card);
+                _animator.Rotate(e.Card);
             };
         }
 
@@ -28,14 +28,12 @@ namespace RoguelikeCards.EventHandlers
             };
         }
 
-        public void Visit(Card card)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public void Visit(IPickable pickable)
         {
-            
+            pickable.PickedUp += e =>
+            {
+                _animator.Shrink(e.Card);
+            };
         }
     }
 }

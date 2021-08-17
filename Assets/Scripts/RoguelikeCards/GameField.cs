@@ -1,150 +1,70 @@
 ﻿using System;
 using System.Collections.Generic;
 using RoguelikeCards.Cards;
+using RoguelikeCards.Extensions;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace RoguelikeCards
 {
+    [RequireComponent(typeof(GameFieldNavigator))]
+    [RequireComponent(typeof(CardSpawner))]
     public class GameField : MonoBehaviour
     {
         [SerializeField] private int sideSize;
-        [SerializeField] private GameFieldInitializer initializer;
+
+        private GameFieldNavigator _navigator;
+        private CardSpawner _spawner;
 
         public event Action GameFieldInitialized;
-        public event Action<Card> CardCreated;
-        
+        public event Action<Card> CardSpawned;
+
         public Card[] Cards { get; private set; }
 
         private void Awake()
         {
+            _spawner = GetComponent<CardSpawner>();
+            _navigator = GetComponent<GameFieldNavigator>();
             Cards = new Card[sideSize * sideSize];
         }
 
         private void Start()
         {
-            initializer.CardCreated += c => { CardCreated?.Invoke(c);};
-            initializer.InitializeGameField(Cards, sideSize);
+            InitializeGameField();
             GameFieldInitialized?.Invoke();
-            // foreach (var card in Cards)
-            // {
-            //     card.UpdateState();
-            // }
         }
 
-        public List<TCard> GetCards<TCard>()
+        public List<TComponent> GetCardComponents<TComponent>()
         {
-            var cards = new List<TCard>();
+            var cards = new List<TComponent>();
             foreach (var card in Cards)
             {
-                TCard t;
-                if ((t = card.GetComponent<TCard>()) != null)
+                foreach (var component in card.Content.CardComponents)
                 {
-                    cards.Add(t);
+                    if (component is TComponent c)
+                    {
+                        cards.Add(c);
+                    }
                 }
             }
 
             return cards;
         }
 
-        public bool IsCardsAdjacent(Card first, Card second)
-        {
-            return Top(first) == second
-                   || Right(first) == second
-                   || Bottom(first) == second
-                   || Left(first) == second;
-        }
-
-        public Card Top(Card card)
-        {
-            var index = GetCardIndex(card);
-            return Top(index);
-        }
-
-        public Card Top(int index)
-        {
-            var newIndex = index + sideSize;
-            return IsCardIndexInbound(newIndex) ? Cards[newIndex] : null;
-        }
-
-        public Card Bottom(Card card)
-        {
-            var index = GetCardIndex(card);
-            return Bottom(index);
-        }
-
-        private Card Bottom(int index)
-        {
-            var newIndex = index - sideSize;
-            return IsCardIndexInbound(newIndex) ? Cards[newIndex] : null;
-        }
-
-        public Card Left(Card card)
-        {
-            var index = GetCardIndex(card);
-            return Left(index);
-        }
-
-        private Card Left(int index)
-        {
-            if (index % sideSize == 0)
-            {
-                return null;
-            }
-
-            var newIndex = index - 1;
-            return IsCardIndexInbound(newIndex) ? Cards[newIndex] : null;
-        }
-
-        public Card Right(Card card)
-        {
-            var index = GetCardIndex(card);
-            return Right(index);
-        }
-
-        private Card Right(int index)
-        {
-            var rightCardIndex = index + 1;
-            if (rightCardIndex % sideSize == 0)
-            {
-                return null;
-            }
-
-            return IsCardIndexInbound(rightCardIndex) ? Cards[rightCardIndex] : null;
-        }
-
-        public Vector2 GetCardPosition(Card card)
-        {
-            var index = GetCardIndex(card);
-            return GetCardPosition(index);
-        }
-
-        private Vector2 GetCardPosition(int cardIndex)
-        {
-            var position = new Vector2(cardIndex % sideSize, cardIndex / sideSize);
-            return position;
-        }
-
         public void MoveCard(Card from, Card to)
         {
-            var fromIndex = GetCardIndex(from);
-            var toIndex = GetCardIndex(to);
+            var fromIndex = Cards.GetCardIndex(from);
+            var toIndex = Cards.GetCardIndex(to);
 
             if (IsCardIndexInbound(fromIndex) == false)
             {
                 return;
             }
+
             var card = Cards[fromIndex];
 
             Cards[toIndex] = card;
             Cards[fromIndex] = null;
-            initializer.UpdateGameField(Cards);
-        }
-
-        private int GetCardIndex(Card card)
-        {
-            var index = Array.IndexOf(Cards, card);
-            if (index == -1) throw new ArgumentException();
-            return index;
         }
 
         private bool IsCardIndexInbound(int index)
@@ -154,9 +74,31 @@ namespace RoguelikeCards
 
         public void ReplaceCard(Card card)
         {
-            var index = GetCardIndex(card);
-            Cards[index] = null;
-            initializer.UpdateGameField(Cards);
+            var index = Cards.GetCardIndex(card);
+            ReplaceCard(index);
+        }
+        
+        public void ReplaceCard(int index)
+        {
+            Cards[index] = _spawner.SpawnCard(Cards.GetCardPosition(index));
+        }
+
+        private void InitializeGameField()
+        {
+            var heroIndex = Random.Range(0, Cards.Length);
+
+            for (int i = 0; i < Cards.Length; i++)
+            {
+                // (i % sideSize) = "x" coord on game field
+                // (i / sideSize) = "y" coord on game field
+                var position = new Vector2(i % sideSize, (int) (i / sideSize));
+                var card = i == heroIndex ? _spawner.SpawnHero(position) : _spawner.SpawnCard(position);
+
+                // TODO: ???
+                card.Navigator = _navigator;
+                CardSpawned?.Invoke(card);
+                Cards[i] = card;
+            }
         }
     }
 }

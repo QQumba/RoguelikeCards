@@ -1,13 +1,14 @@
-﻿using System;
-using RoguelikeCards.Heroes;
+﻿using RoguelikeCards.Heroes;
 using UnityEngine;
 
 namespace RoguelikeCards.Cards
 {
-    [Serializable]
+    [RequireComponent(typeof(CardContent))]
     public abstract class CardComponent : MonoBehaviour
     {
-        public Card Card => GetComponent<CardContent>().Card;
+        private Card _card;
+        
+        public Card Card => _card ??= GetComponent<CardContent>().Card;
         public abstract void Accept(ICardComponentVisitor visitor);
     }
 }
