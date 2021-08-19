@@ -14,6 +14,7 @@ namespace RoguelikeCards.Heroes
 
         private HandWeapon _weapon;
 
+        public HandWeapon Weapon => _weapon;
         public int Health => health;
         public int MaxHealth => maxHealth;
         public DamageAppliedEvent damageAppliedEvent;
@@ -45,7 +46,11 @@ namespace RoguelikeCards.Heroes
         }
         public void GiveWeapon(HandWeapon weapon)
         {
-            _weapon = weapon;
+            _weapon = weapon.GetInstance();
+            _weapon.DamageChanged += d =>
+            {
+                weaponAttackChangedEvent.Invoke(d.ToString());
+            };
         }
 
         public void ApplyDamage(int damage)
@@ -71,9 +76,16 @@ namespace RoguelikeCards.Heroes
         }
 
         public void Visit(IEnemy enemy)
-        { 
-            _weapon.Attack(enemy.Damageable);
-            weaponAttackChangedEvent.Invoke(_weapon.Damage.ToString());
+        {
+            if (_weapon.Damage > 0)
+            {
+                _weapon.Attack(enemy.Damageable);
+                weaponAttackChangedEvent.Invoke(_weapon.Damage.ToString());
+                return;
+            }
+
+            ApplyDamage(enemy.Damageable.Health);
+            (enemy as CardComponent).Card.Accept();
         }
 
         /// <summary>

@@ -98,10 +98,12 @@ namespace RoguelikeCards
             
             card.Entered += e =>
             {
+                animator.Shrink(e.Card);
+                
                 animator.Move(Hero.Card, e.Card);
                 var index = gameField.Cards.GetCardIndex(Hero.Card);
-                gameField.ReplaceCard(index);
                 gameField.MoveCard(Hero.Card, e.Card);
+                gameField.ReplaceCard(index);
             };
             
             card.Destroyed += e =>

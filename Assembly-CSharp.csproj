@@ -60,6 +60,7 @@
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Pickables\DummyPotion.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\SwordSlash.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Weapons\CommonWeapon.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Pickables\Pickable.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\CardAnimator.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\InputHandlers\InputHandler.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Heroes\Hero.cs" />
@@ -70,11 +71,13 @@
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Enemies\CommonEnemy.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\GameFieldNavigator.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\UnityEvents\HealingAppliedEvent.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Pickables\DamagePotion.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\GameFieldInitializer.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\IEnemy.cs" />
-     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Pickables\RedPotion.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Pickables\HealingPotion.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Presenters\CurrentOfMaxValuePresenter.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Presenters\SimpleValuePresenter.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Damageables\Damageable.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\ITurnUpdateable.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\BaseCard.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\UnityEvents\StringValueChangedEvent.cs" />
@@ -90,6 +93,7 @@
      <Compile Include="Assets\Scripts\RoguelikeCards\Buffs\EnemyBuff.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\DummyCard.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\RCEventArgs\CardEventArgs.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Pickables\SwordShard.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\CardComponent.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\CardController.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\CardContent.cs" />
@@ -100,6 +104,16 @@
      <Compile Include="Assets\Scripts\RoguelikeCards\UnityEvents\DamageAppliedEvent.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\MovementController.cs" />
      <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Damageables\CommonDamageable.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Cards\Enemies\Enemy.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\EventDispatcher\IDispatcher.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\EventDispatcher\IRequest.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\EventDispatcher\IRequestHandler.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\EventDispatcher\Dispatcher.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Commands\ApplyHealingCommand.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Commands\Targets.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\Commands\TargetsExtensions.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\EventDispatcher\RequestHandlerWrapper.cs" />
+     <Compile Include="Assets\Scripts\RoguelikeCards\EventDispatcher\RequestHandlerBase.cs" />
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />

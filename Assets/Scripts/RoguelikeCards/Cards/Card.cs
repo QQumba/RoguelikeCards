@@ -1,4 +1,5 @@
 ﻿using System;
+using RoguelikeCards.EventDispatcher;
 using RoguelikeCards.Heroes;
 using RoguelikeCards.RCEventArgs;
 using UnityEngine;
@@ -17,6 +18,7 @@ namespace RoguelikeCards.Cards
 
         public CardContent Content { get; set; }
         public GameFieldNavigator Navigator { get; set; }
+        public IDispatcher Dispatcher { get; set; }
 
         private void Start()
         {

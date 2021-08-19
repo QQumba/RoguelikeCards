@@ -5,34 +5,9 @@ using UnityEngine;
 
 namespace RoguelikeCards.Cards.Enemies
 {
-    [RequireComponent(typeof(IDamageable))]
-    public class CommonEnemy : CardComponent, IEnemy
+    public class CommonEnemy : Enemy
     {
-        private IDamageable _damageable;
-
-        public IDamageable Damageable => _damageable ??= GetComponent<IDamageable>();
-        
-        public event Action<CardEventArgs> Died;
-
-        private void Start()
-        {
-            Damageable.DamageApplied += e =>
-            {
-                if (_damageable.Health <= 0)
-                {
-                    Die();
-                }
-            };
-        }
-
-        public void Die()
-        {
-            Died?.Invoke(Card);
-        }
-
-        public override void Accept(ICardComponentVisitor visitor)
-        {
-            visitor.Visit(this);
-        }
+        // do nothing on default
+        protected override void OnDied() { }
     }
 }

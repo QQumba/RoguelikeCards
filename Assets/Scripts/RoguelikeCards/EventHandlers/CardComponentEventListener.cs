@@ -30,10 +30,10 @@ namespace RoguelikeCards.EventHandlers
 
         public void Visit(IPickable pickable)
         {
-            pickable.PickedUp += e =>
-            {
-                _animator.Shrink(e.Card);
-            };
+            // pickable.PickedUp += e =>
+            // {
+            //     _animator.Shrink(e.Card);
+            // };
         }
     }
 }

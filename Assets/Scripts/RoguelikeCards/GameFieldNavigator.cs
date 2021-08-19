@@ -2,29 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using RoguelikeCards.Cards;
+using RoguelikeCards.Extensions;
 using RoguelikeCards.Heroes;
 using UnityEngine;
 
 namespace RoguelikeCards
 {
-    [RequireComponent(typeof(GameField))]
-    public class GameFieldNavigator : MonoBehaviour
+    public class GameFieldNavigator
     {
-        private GameField _gameField;
-
+        private readonly Card[] _cards;
         private Hero _hero;
 
-        public Hero Hero => GetHero();
-
-        private void Awake()
+        public GameFieldNavigator(Card[] cards)
         {
-            _gameField = GetComponent<GameField>();
+            _cards = cards;
+        }
+
+        public Hero Hero => GetHero();
+        
+        public Card Top(Card card)
+        {
+            return _cards.Top(card);
+        }
+        
+        public Card Right(Card card)
+        {
+            return _cards.Right(card);
+        }
+        
+        public Card Bottom(Card card)
+        {
+            return _cards.Bottom(card);
+        }
+        
+        public Card Left(Card card)
+        {
+            return _cards.Left(card);
         }
 
         public List<TComponent> GetCardComponents<TComponent>()
         {
             var cards = new List<TComponent>();
-            foreach (var card in _gameField.Cards)
+            foreach (var card in _cards)
             {
                 foreach (var component in card.Content.CardComponents)
                 {
@@ -45,7 +64,7 @@ namespace RoguelikeCards
                 return _hero;
             }
 
-            foreach (var card in _gameField.Cards)
+            foreach (var card in _cards)
             {
                 foreach (var component in card.Content.CardComponents)
                 {
